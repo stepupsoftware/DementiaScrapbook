@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Dementia Scrapbook</title>
+    <link rel="stylesheet" href="css/screen.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="inc/colorbox.css" type="text/css" media="screen">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/docs.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Metrophobic' rel='stylesheet' type='text/css'>
+
+</head>
+<body>
+<div class="container">
+
+    <div class="headspace hidden-phone"></div>
+    <div class="spacer25 hidden-phone"></div>
+
+    <div class="row-fluid">
+        <div class="span1"></div>
+        <div class="span4">
+            <div class="circle2" style="background-image: url('img/profile abraham simpson.jpeg ');">
+
+            </div>
+        </div>
+        <div class="span7" id="me">
+            <p class="title">Abraham Simpson</p>
+            <p class="heading2"><strong>- My life</strong></p>
+
+        </div>
+    </div>
+    <div id="timelineContainer">
+
+        <div class="timelineToggle"><p><a class="expandAll">+ expand all</a></p></div>
+
+        <br class="clear">
+
+        <div class="timelineMajor">
+            <h2 class="timelineMajorMarker"><span>1930</span></h2>
+            <dl class="timelineMinor">
+                <dt id="19540517"><a>Born</a></dt>
+                <dd class="timelineEvent" id="19540517EX" style="display:none;">
+                    <h3>May 17, 1931</h3>
+                    <p>
+                     Born at Springfield General Hospital<sup>1</sup></p>
+
+                    <br class="clear">
+                </dd><!-- /.timelineEvent -->
+            </dl><!-- /.timelineMinor -->
+        </div><!-- /.timelineMajor -->
+
+        <div class="timelineMajor">
+            <h2 class="timelineMajorMarker"><span>1938</span></h2>
+            <dl class="timelineMinor">
+                <dt id="19550828"><a>WW2 Starts</a></dt>
+                <dd class="timelineEvent" id="19550828EX" style="display:none;">
+                    <h3>August 28, 1955</h3>
+
+
+
+                    <p>Member of the Flying Hellfish. Met Edwina in the UK. Almost killed hitler twice.
+                        Stole Nazi gold and paintings.
+                     </p>
+
+                    <br class="clear">
+                </dd><!-- /.timelineEvent -->
+            </dl><!-- /.timelineMinor -->
+
+
+            <dl class="timelineMinor">
+                <dt id="19551201"><a>Married Edwina</a></dt>
+                <dd class="timelineEvent" id="19551201EX" style="display:none;">
+                    <h3>1955</h3>
+                    <p>
+                       A wonderful wedding</p>
+
+                    <br class="clear">
+                </dd><!-- /.timelineEvent -->
+            </dl><!-- /.timelineMinor -->
+        </div><!-- /.timelineMajor -->
+
+        <div class="timelineMajor">
+            <h2 class="timelineMajorMarker"><span>1972</span></h2>
+            <dl class="timelineMinor">
+                <dt id="19570904"><a>First Child: Homer born</a></dt>
+                <dd class="timelineEvent" id="19570904EX" style="display:none;">
+                    <h3>July 1972</h3>
+
+
+
+                    <p>
+                    It's a shame how he's turned out.<sup>5</sup></p>
+
+                    <br class="clear">
+                </dd><!-- /.timelineEvent -->
+            </dl><!-- /.timelineMinor -->
+        </div><!-- /.timelineMajor -->
+
+
+
+        <br class="clear">
+    </div><!-- /#timelineContainer -->
+</div><!-- /.container -->
+
+<!-- /.container -->
+
+<!-- GLOBAL CORE SCRIPTS -->
+<script src="js/jquery-1.9.0.js"></script>
+<script type="text/javascript" src="inc/colorbox.js"></script>
+<script type="text/javascript" src="js/timeliner.js"></script>
+<script>
+    $(document).ready(function() {
+        $.timeliner({
+            startOpen:'#19550828EX'
+        });
+        // Colorbox Modal
+        $(".CBmodal").colorbox({inline:true, initialWidth:100, maxWidth:682, initialHeight:100, transition:"elastic",speed:750});
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Dementia ScrapBook</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/docs.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Metrophobic' rel='stylesheet' type='text/css'>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            $("#people").click(function() {
+                Ti.App.fireEvent('htmlevent', {
+                    file : 'index'
+                });
+            })
+            $("#timeline").click(function() {
+                Ti.App.fireEvent('htmlevent', {
+                    file : 'todayandtomorrow'
+                });
+            })
+            $("#postcards").click(function() {
+                Ti.App.fireEvent('htmlevent', {
+                    file : 'postcards'
+                });
+            })
+        });
+        $(document).ready(function() {
+            var winHeight = $(window).height();
+            $("div.content").css("height", winHeight);
+        });
+    </script>
+</head>
+<body>
+<!-- containter -->
+<div class="content">
+    <div class="headspace hidden-phone"></div>
+
+    <div class="row-fluid">
+        <div class="span1"></div>
+        <div class="span4">
+            <div class="circle2" style="background-image: url('img/profile-lisa_200.png ');">
+
+            </div>
+        </div>
+        <div class="span7" id="me">
+            <p class="title">Lisa Simpson</p>
+
+            <p class="heading2"><strong>Grandaughter</strong></p>
+            <p class="heading2">Birthday: 1 August 1992</p>
+            <p class="heading2">Hobbies: Saxophone</p>
+            <p class="heading2">Favorite Music: Jazz</p>
+            <p class="heading2">Likes: Vegatarism</p>
+            <p class="heading2">Future president of the USA</p>
+
+        </div>
+    </div>
+
+    <div class="spacer25"></div>
+    <div class="row-fluid">
+        <div class="span1">s</div>
+        <div class="span10">
+
+            <a href="#" class="">
+                <img src="http://placehold.it/150x150" alt="">
+            </a>
+            <a href="#" class="">
+                <img src="http://placehold.it/150x150" alt="">
+            </a>
+            <a href="#" class="">
+                <img src="http://placehold.it/150x150" alt="">
+            </a>
+            <a href="#" class="">
+                <img src="http://placehold.it/150x150" alt="">
+            </a>
+
+            <a href="#" class="">
+                <img src="http://placehold.it/150x150" alt="">
+            </a>
+
+            <a href="#" class="">
+                <img src="http://placehold.it/150x150" alt="">
+            </a>
+
+            <a href="#" class="">
+                <img src="http://placehold.it/150x150" alt="">
+            </a>
+
+
+        </div>
+    </div>
+
+
+</div>
+
+</body>
+<script src="js/bootstrap.js"></script>
+</html>
