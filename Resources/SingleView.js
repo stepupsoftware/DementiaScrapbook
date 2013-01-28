@@ -41,25 +41,13 @@ SingleWindow.prototype.initialize = function() {
     that.tabGroup.addTab(tab);
     that.tabGroup.setActiveTab(tab);
 
-    peopleWindow = Ti.UI.createWindow({
-        title : L('people'),
-        backgroundColor : '#696969',
-        id : "DETAIL_WINDOW",
-        tabBarHidden : true,
-        layout : 'composite'
+    PeopleWindow = require('people');
+    peopleWindow = new PeopleWindow();
 
-    });
+    TimelineWindow = require('timeline');
+    timelineWindow = new TimelineWindow();
 
-    timelineWindow = Ti.UI.createWindow({
-        title : L('timeline'),
-        backgroundColor : '#696969',
-        id : "DETAIL_WINDOW",
-        tabBarHidden : true,
-        layout : 'composite'
-
-    });
-
-    PostcardWindow = require('coverflow_view');
+    PostcardWindow = require('postcards');
     postcardWindow = new PostcardWindow();
 
     peopleBtn = Ti.UI.createButton(_.extend(style.buttons, {
@@ -85,13 +73,16 @@ SingleWindow.prototype.initialize = function() {
     });
 
     view = Ti.UI.createView({
+        height : Ti.UI.SIZE,
+        scrollable : false,
+        separatorStyle : Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
+        separatorColor : 'transparent',
         layout : 'vertical'
     });
 
     view.add(peopleBtn);
     view.add(timelineBtn);
     view.add(postcardBtn);
-
     homeWindow.add(view);
 
 };

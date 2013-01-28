@@ -1,4 +1,4 @@
-var models = (function() {
+function model() {
   var m = {};
 
   m.content = new joli.model({
@@ -132,4 +132,4 @@ var models = (function() {
   });
   
   return m;
-})();
+};

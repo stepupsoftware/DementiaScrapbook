@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <string name="home">Home</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="yesterday">Yesterday</string>
     <string name="people">Me and My Family</string>
     <string name="postcards">Postcards</string>
     <string name="timeline">Today and Tomorrow</string>
