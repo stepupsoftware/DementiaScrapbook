@@ -1,12 +1,23 @@
-Welcome to your Appcelerator Titanium Mobile Project
+Welcome to the Dementia Scrapbook Project
 
-This is a blank project.  Start by editing your application's app.js to 
-make your first mobile project using Titanium.
+The Dementia Scrapbook App was initially developed at the NHS Hackday Oxford on 26th/27th January 2013.  The intention is to develop this
+into a fully working solution for widespread distribution.
 
+A project basecamp has been set up for this project at https://stepupsoftwareltd.basecamphq.com/clients
+
+contact Paul Ryan (paul.ryan@stepupsoftware.co.uk) or Rinesh Amin (rinesh@drdoctor.co.uk) if you would like to participate in this project.
+
+Calling beta testers!
+
+if you have an iOS device and would like to be a beta tester for this app you can sign up at http://tflig.ht/10S0Wc9
+
+if you have an android device please contact Paul or Rinesh as above.
 
 
 ----------------------------------
-Stuff our legal folk make us say:
+Legal Notices:
+
+This project is licensed under the Apache Public License (Version 2). See http://www.apache.org/licenses/LICENSE-2.0.html for details.
 
 Appcelerator, Appcelerator Titanium and associated marks and logos are 
 trademarks of Appcelerator, Inc. 
@@ -15,4 +26,3 @@ Titanium is Copyright (c) 2008-2012 by Appcelerator, Inc. All Rights Reserved.
 
 Titanium is licensed under the Apache Public License (Version 2). Please
 see the LICENSE file for the full license.
-
