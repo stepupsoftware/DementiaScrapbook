@@ -10,9 +10,7 @@ function timeline() {
 
     });
     
-    tv = Titanium.UI.createTableView({
-        
-    });
+    tv = Titanium.UI.createTableView();
     
     var addRows = function() {
         var data = [];

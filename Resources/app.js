@@ -1,4 +1,5 @@
-var joli = require('libs/joli').connect('dementia001');
+_ = require('/libs/underscore');
+model = require('model/model');
 var Flurry = require('ti.flurry');
 Flurry.debugLogEnabled = true;
 Flurry.eventLoggingEnabled = true;

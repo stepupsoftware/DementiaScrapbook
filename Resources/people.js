@@ -2,7 +2,6 @@
 /*jslint nomen: true, sloppy : true, plusplus: true, vars: true, newcap: true*/
 var theme = require('/ui/common/theme');
 function people() {
-    _ = require('/libs/underscore');
     win = Ti.UI.createWindow(_.extend({
         title : L('people')
     }, theme.window));
@@ -10,15 +9,7 @@ function people() {
     tv = Titanium.UI.createTableView();
 
     var addRows = function() {
-        var file, fileJSON, people, groups;
-        file = Ti.Filesystem.getFile('model/people.json');
-        if (file.exists()) {
-            fileJSON = file.read();
-            people = JSON.parse(fileJSON);
-            groups = _.chain(people).groupBy(function(obj) {
-                return obj.type;
-            }).value();
-        }
+        var groups = model.person.getGroups();
         var data = [];
         var group, groupArray = _.toArray(groups), i = 0, len = groupArray.length, section, row, groupNames, groupName, label;
         groupNames = _.keys(groups);
@@ -45,7 +36,6 @@ function people() {
             });
             data.push(section);
         }
-
         return data;
     };
     win.add(tv);
