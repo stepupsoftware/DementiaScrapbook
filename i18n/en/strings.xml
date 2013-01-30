@@ -8,4 +8,7 @@
     <string name="postcards">Postcards</string>
     <string name="timeline">Today and Tomorrow</string>
     <string name="title">Dementia Scrapbook</string>
+    <string name="me">Me</string>
+    <string name="family">Family</string>
+    <string name="friends">Friends</string>
 </resources>

@@ -15,5 +15,7 @@ if (osname === 'ipad') {
     var splitView = new ( require('SplitView').SplitView)(this);
     splitView.open();
 } else if (osname === 'android' || osname === 'iphone') {
-    var splitView = new ( require('SingleView').SingleWindow)(this);
+    var splitView = new ( require('/ui/handheld/ios/SingleView').SingleWindow)();
+
+    Ti.API.log('event');
 }

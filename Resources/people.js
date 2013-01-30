@@ -1,66 +1,51 @@
 /*global L, Ti, Titanium, joli, uploader, logger, models, sus, cust*/
 /*jslint nomen: true, sloppy : true, plusplus: true, vars: true, newcap: true*/
+var theme = require('/ui/common/theme');
 function people() {
-    win = Ti.UI.createWindow({
-        title : L('people'),
-        backgroundColor : '#696969',
-        id : "DETAIL_WINDOW",
-        tabBarHidden : true,
-        layout : 'composite'
+    _ = require('/libs/underscore');
+    win = Ti.UI.createWindow(_.extend({
+        title : L('people')
+    }, theme.window));
 
-    });
-    var scrollView = Ti.UI.createScrollView({
-        contentWidth : 'auto',
-        contentHeight : 'auto',
-        showVerticalScrollIndicator : true,
-        showHorizontalScrollIndicator : true,
-        height : '80%',
-        width : '80%'
-    });
-    var view = Ti.UI.createView({
-        backgroundColor : '#696969',
-        borderRadius : 10,
-        top : 10,
-        layout : 'vertical'
-    });
-    var me = Ti.UI.createImageView({
-        image : '/Bootstrap/img/profile-abraham-simpson_150.png',
-        top : 10
-    });
-    var homer = Ti.UI.createImageView({
-        image : '/Bootstrap/img/profile-homer_200.png',
-        top : 10
+    tv = Titanium.UI.createTableView();
 
-    });
-    var marge = Ti.UI.createImageView({
-        image : '/Bootstrap/img/profile-marge_150.png',
-        top : 10
+    var addRows = function() {
+        var file, fileJSON, people, groups;
+        file = Ti.Filesystem.getFile('model/people.json');
+        if (file.exists()) {
+            fileJSON = file.read();
+            people = JSON.parse(fileJSON);
+            groups = _.chain(people).groupBy(function(obj) {
+                return obj.type;
+            }).value();
+        }
+        var data = [];
+        var group, groupArray = _.toArray(groups), i = 0, len = groupArray.length, section, row, groupNames, groupName, label;
+        groupNames = _.keys(groups);
+        for (i; i < len; i++) {
+            group = groupArray[i];
+            groupName = groupNames[i];
+            section = Ti.UI.createTableViewSection({
+                headerTitle : groupName
+            });
+            _.each(group, function(person) {
+                row = Ti.UI.createTableViewRow();
+                label = Ti.UI.createLabel({
+                    text : person.aliasName,
+                    backgroundColor : theme.backgroundColor
+                });
+                row.add(label);
+                section.add(row);
+            });
+            data.push(section);
+        }
 
-    });
-    var bart = Ti.UI.createImageView({
-        image : '/Bootstrap/img/profile-bart_150.png',
-        top : 10
-
-    });
-    var lisa = Ti.UI.createImageView({
-        image : '/Bootstrap/img/profile-lisa_150.png',
-        top : 10
-
-    });
-    var maggie = Ti.UI.createImageView({
-        image : '/Bootstrap/img/profile-maggie_150.png',
-        top : 10
-
-    });
-    view.add(me);
-    view.add(homer);
-    view.add(marge);
-    view.add(bart);
-    view.add(lisa);
-    view.add(maggie);
-    scrollView.add(view);
-    win.add(scrollView);
+        return data;
+    };
+    win.add(tv);
+    tv.setData(addRows());
     return win;
+
 }
 
 module.exports = people
