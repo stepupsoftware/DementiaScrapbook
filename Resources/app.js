@@ -6,9 +6,4 @@ theme = require('/ui/common/theme');
 flurry = require('/ui/common/flurrysettings');
 tf = require('/ui/common/testflightsettings');
 osname = Titanium.Platform.osname;
-if (osname === 'ipad') {
-    var splitView = new ( require('SplitView').SplitView)(this);
-    splitView.open();
-} else if (osname === 'android' || osname === 'iphone') {
-    var splitView = new ( require('/ui/handheld/ios/SingleView').SingleWindow)();
-}
+var splitView = new ( require('/ui/handheld/ios/SingleView').SingleWindow)();
