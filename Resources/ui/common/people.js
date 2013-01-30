@@ -1,5 +1,8 @@
 /*global L, Ti, Titanium, joli, uploader, logger, models, sus, cust*/
 /*jslint nomen: true, sloppy : true, plusplus: true, vars: true, newcap: true*/
+var theme = require('/ui/common/theme');
+var _ = require('/libs/underscore');
+var model = require('model/model');
 function people() {
     var win = Ti.UI.createWindow(_.extend({
         title : L('people')

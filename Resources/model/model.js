@@ -1,6 +1,7 @@
 /*global L, Ti, Titanium, joli, uploader, logger, models, sus, cust*/
 /*jslint nomen: true, sloppy : true, plusplus: true, vars: true, newcap: true*/
 var joli = require('libs/joli').connect('dementia001');
+var _ = require('/libs/underscore');
 var models = ( function() {
         var m = {};
 
@@ -85,14 +86,19 @@ var models = ( function() {
                 },
                 getGroups : function() {
                     var file, fileJSON, people, groups;
-                    file = Ti.Filesystem.getFile('model/people.json');
+                    file = file = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'model/people.json');
                     if (file.exists()) {
                         fileJSON = file.read();
                         people = JSON.parse(fileJSON);
                         groups = _.chain(people).groupBy(function(obj) {
                             return obj.type;
                         }).value();
+                    } else {
+                        Ti.API.error('cannot load' +file);
                     }
+                    file = null;
+                    fileJSON = null;
+                    people = null;
                     return groups;
                 }
             }

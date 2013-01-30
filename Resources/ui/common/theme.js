@@ -19,6 +19,7 @@ var theme = {
         orange : '#F09609',
         purple : '#A200FF'
     },
+    backgroundColor : '#696969',
     window : {
         backgroundColor : '#696969',
         id : "DETAIL_WINDOW",
