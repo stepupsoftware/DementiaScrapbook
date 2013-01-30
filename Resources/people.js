@@ -32,9 +32,15 @@ function people() {
                 row = Ti.UI.createTableViewRow();
                 label = Ti.UI.createLabel({
                     text : person.aliasName,
-                    backgroundColor : theme.backgroundColor
+                    right : 5
                 });
                 row.add(label);
+                image = Ti.UI.createImageView({
+                    image: person.picture,
+                    left: 5,
+                    width : 100
+                });
+                row.add(image);
                 section.add(row);
             });
             data.push(section);
@@ -44,6 +50,12 @@ function people() {
     };
     win.add(tv);
     tv.setData(addRows());
+    tv.addEventListener('click', function() {
+        alert('person biog/timeline will appear here');
+    });
+    win.addEventListener('focus', function() {
+        tv.setData(addRows());
+    });
     return win;
 
 }

@@ -44,6 +44,12 @@ function timeline() {
     };
     win.add(tv);
     tv.setData(addRows());
+        tv.addEventListener('click', function() {
+        alert('detail on event will appear here');
+    });
+    win.addEventListener('focus', function() {
+        tv.setData(addRows());
+    });
     return win;
 }
 module.exports = timeline;

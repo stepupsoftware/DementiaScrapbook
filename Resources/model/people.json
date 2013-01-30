@@ -11,7 +11,7 @@
         "id": "1",
         "firstName": "Homer",
         "lastName": "Simpson",
-        "picture": "/Bootstrap/img/profile-homer_200.png'",
+        "picture": "/Bootstrap/img/profile-homer_200.png",
         "type": "family"
     }, {
         "aliasName": "Marge",
@@ -41,5 +41,12 @@
         "lastName": "Simpson",
         "picture": "/Bootstrap/img/profile-maggie_150.png",
         "type": "family"
+    }, {
+        "aliasName": "Ned",
+        "id": "1",
+        "firstName": "Ned",
+        "lastName": "Flanders",
+        "picture": "/Bootstrap/img/profile_ned.png",
+        "type": "friend"
     }
 ]
