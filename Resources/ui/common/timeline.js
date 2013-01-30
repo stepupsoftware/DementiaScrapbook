@@ -1,11 +1,11 @@
 /*global L, Ti, Titanium, joli, uploader, logger, models, sus, cust*/
 /*jslint nomen: true, sloppy : true, plusplus: true, vars: true, newcap: true*/
 function timeline() {
-    win = Ti.UI.createWindow(_.extend({
+    var win = Ti.UI.createWindow(_.extend({
         title : L('timeline')
     }, theme.window));
 
-    tv = Titanium.UI.createTableView();
+    var tv = Titanium.UI.createTableView();
 
     var addRows = function() {
         var data = [];

@@ -38,13 +38,13 @@ initialize = function(that) {
     that.tabGroup.addTab(tab);
     that.tabGroup.setActiveTab(tab);
 
-    PeopleWindow = require('people');
+    PeopleWindow = require('/ui/common/people');
     peopleWindow = new PeopleWindow();
 
-    TimelineWindow = require('timeline');
+    TimelineWindow = require('ui/common/timeline');
     timelineWindow = new TimelineWindow();
 
-    PostcardWindow = require('postcards');
+    PostcardWindow = require('ui/common/postcards');
     postcardWindow = new PostcardWindow();
 
     peopleBtn = Ti.UI.createButton(_.extend(theme.buttons, {

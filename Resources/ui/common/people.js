@@ -1,12 +1,11 @@
 /*global L, Ti, Titanium, joli, uploader, logger, models, sus, cust*/
 /*jslint nomen: true, sloppy : true, plusplus: true, vars: true, newcap: true*/
-var theme = require('/ui/common/theme');
 function people() {
-    win = Ti.UI.createWindow(_.extend({
+    var win = Ti.UI.createWindow(_.extend({
         title : L('people')
     }, theme.window));
 
-    tv = Titanium.UI.createTableView();
+    var tv = Titanium.UI.createTableView();
 
     var addRows = function() {
         var groups = model.person.getGroups();
