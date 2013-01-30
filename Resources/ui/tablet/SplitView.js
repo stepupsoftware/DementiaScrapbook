@@ -15,8 +15,8 @@ SplitView.prototype.open = function() {
 	}
 
 	// WINDOWS
-	that.masterWindow = new ( require('MasterWindow').MasterWindow)(that);
-	that.detailWindow = new ( require('DetailWindow').DetailWindow)(that);
+	that.masterWindow = new ( require('/ui/tablet/MasterWindow').MasterWindow)(that);
+	that.detailWindow = new ( require('/ui/handheld/ios/SingleView').SingleWindow)(that);
 
 	// MASTER NAV GROUP
 	that.masterNav = Ti.UI.iPhone.createNavigationGroup({

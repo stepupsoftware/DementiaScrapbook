@@ -1,0 +1,52 @@
+[
+    {
+        "aliasName": "Grandad",
+        "id": "1",
+        "firstName": "Abraham",
+        "lastName": "Simpson",
+        "picture": "/Bootstrap/img/profile-abraham-simpson_150.png",
+        "type": "me"
+    }, {
+        "aliasName": "Homer",
+        "id": "1",
+        "firstName": "Homer",
+        "lastName": "Simpson",
+        "picture": "/Bootstrap/img/profile-homer_200.png",
+        "type": "family"
+    }, {
+        "aliasName": "Marge",
+        "id": "1",
+        "firstName": "Marge",
+        "lastName": "Simpson",
+        "picture": "/Bootstrap/img/profile-marge_150.png",
+        "type": "family"
+    }, {
+        "aliasName": "Bart",
+        "id": "1",
+        "firstName": "Bart",
+        "lastName": "Simpson",
+        "picture": "/Bootstrap/img/profile-bart_150.png",
+        "type": "family"
+    }, {
+        "aliasName": "Lisa",
+        "id": "1",
+        "firstName": "Lisa",
+        "lastName": "Simpson",
+        "picture": "/Bootstrap/img/profile-lisa_150.png",
+        "type": "family"
+    }, {
+        "aliasName": "Maggie",
+        "id": "1",
+        "firstName": "Maggie",
+        "lastName": "Simpson",
+        "picture": "/Bootstrap/img/profile-maggie_150.png",
+        "type": "family"
+    }, {
+        "aliasName": "Ned",
+        "id": "1",
+        "firstName": "Ned",
+        "lastName": "Flanders",
+        "picture": "/Bootstrap/img/profile_ned.png",
+        "type": "friend"
+    }
+]
