@@ -3,45 +3,95 @@
 
 //this window is added outside the navigation group and stays open all the time
 var ApplicationWindow = function(args) {
+    var theme = require('/ui/common/theme');
     try {
-        var win, view, all, events, postcards, people, settings;
+        var win, fakeNavBar, view, table, icons, all, events, postcards, people, settings;
 
         //private objects
         win = Ti.UI.createWindow({
-            title : "Settings",
-            backgroundColor : theme.performApp.Grey
+            backgroundColor : theme.performApp.grey,
+            width : SIDEBAR,
+            left : 0,
+            height : '100%'
+        });
+
+       
+        table = Ti.UI.createTableView({
+            width : '100%',
+            height : Ti.UI.FILL,
+            backgroundColor : theme.performApp.grey, separatorColor: 'transparent'
         });
 
         view = Ti.UI.createView(_.defaults({
-            layout : 'vertical'
+            layout : 'vertical',
+            width : '100%',
+            height : Ti.UI.SIZE, top : 40
         }, theme.mainView));
 
-        all = Ti.UI.createButton({
-            height : '20%',
+        all = Ti.UI.createLabel({
             backgroundImage : '/images/27-planet.png'
         });
-        events = Ti.UI.createButton({
-            height : '20%',
+        events = Ti.UI.createLabel({
             backgroundImage : '/images/83-calendar.png'
         });
-        postcards = Ti.UI.createButton({
-            height : '20%',
+        postcards = Ti.UI.createLabel({
             backgroundImage : '/images/43-film-roll.png'
         });
-        people = Ti.UI.createButton({
-            height : '20%',
+        people = Ti.UI.createLabel({
             backgroundImage : '/images/112-group.png'
         });
-        settings = Ti.UI.createButton({
-            height : '20%',
+        settings = Ti.UI.createLabel({
             backgroundImage : '/images/30-key.png'
         });
 
-        view.add(all);
-        view.add(events);
-        view.add(postcards);
-        view.add(people);
-        view.add(settings);
+        icons = [all, events, postcards, people];
+
+        view.add(table);
+
+        var addRows = function() {
+            var row, view, rows = [], itemsSection, SettingsSection;
+            itemsSection = Ti.UI.createTableViewSection({
+                backgroundColor : theme.performApp.lightGrey,
+                title : 'VIEWS',
+                color : 'white'
+            });
+            //rows.push(itemsSection);
+            _.each(icons, function(icon) {
+                row = Ti.UI.createTableViewRow({
+                    backgroundColor : theme.performApp.grey,
+                    layout : 'horizontal'
+                });
+                view = Ti.UI.createView({
+                    'height' : 40,
+                    left : 10,
+                    layout : 'horizontal', top : 10
+                });
+                view.add(icon);
+                row.add(view);
+                rows.push(row);
+            });
+            SettingsSection = Ti.UI.createTableViewSection({
+                backgroundColor : theme.performApp.lightGrey,
+                title : 'SETTINGS',
+                color : 'white'
+            });
+            //rows.push(SettingsSection);
+            row = Ti.UI.createTableViewRow({
+                backgroundColor : theme.performApp.grey,
+                layout : 'horizontal'
+            });
+            view = Ti.UI.createView({
+                'height' : 40,
+                left : 10,
+                layout : 'horizontal', top : 10
+            });
+            row.add(view);
+            view.add(settings);
+            rows.push(row);
+            return rows;
+        };
+
+        table.setData(addRows());
 
         win.add(view);
         //public objects
@@ -49,6 +99,10 @@ var ApplicationWindow = function(args) {
         this.open = win.open;
 
         //event handlers
+
+        win.addEventListener('focus', function() {
+            table.setData(addRows());
+        });
 
     } catch (ex) {
 

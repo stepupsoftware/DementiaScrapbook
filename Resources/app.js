@@ -5,6 +5,7 @@ theme = require('/ui/common/theme');
 //model = require('model/model');
 flurry = require('/ui/common/flurrysettings');
 tf = require('/ui/common/testflightsettings');
+SIDEBAR = 80;
 var mainWin, settingsWin, leftBtn, rightBtn, osname = Titanium.Platform.osname, slideItLeft, slideItRight;
 
 settingsWin = require('/ui/common/SettingsWindow').create();
@@ -16,7 +17,7 @@ mainWin = require('/ui/common/ApplicationWindow').create({
 });
 
 slideItLeft = Titanium.UI.createAnimation({
-    left : 150,
+    left : SIDEBAR,
     duration : 500,
     curve : Ti.UI.ANIMATION_CURVE_LINEAR
 });
@@ -50,7 +51,8 @@ rightBtn = Ti.UI.createButton(_.defaults({
     height : 26
 }, theme.tabButton));
 
-mainWin.setRightNavButton(rightBtn);
+//not needed just yet.
+//mainWin.setRightNavButton(rightBtn);
 mainWin.setLeftNavButton(leftBtn);
 
 mainWin.open();
