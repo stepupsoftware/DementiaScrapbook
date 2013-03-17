@@ -29,10 +29,10 @@ slideItRight = Titanium.UI.createAnimation({
 });
 
 leftBtn = Ti.UI.createButton(_.defaults({
-    backgroundImage : '/images/20-gear-2.png',
-    width : 26,
-    height : 28,
-    toggle : true
+    backgroundImage : '/images/259-list.png',
+    width : 20,
+    height : 14,
+    toggle : true,borderRadius: 0
 }, theme.tabButton));
 
 leftBtn.addEventListener('click', function(e) {
