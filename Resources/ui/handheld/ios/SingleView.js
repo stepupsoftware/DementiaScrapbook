@@ -1,5 +1,8 @@
 /*global L, Ti, Titanium, joli, uploader, logger, models, sus, cust*/
 /*jslint nomen: true, sloppy : true, plusplus: true, vars: true, newcap: true*/
+
+//this was the improved POC done the week after the hackday
+
 var theme = require('/ui/common/theme');
 var _ = require('/libs/underscore');
 SingleWindow = function(options) {
