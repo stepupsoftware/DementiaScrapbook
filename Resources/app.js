@@ -7,7 +7,7 @@ flurry = require('/ui/common/flurrysettings');
 tf = require('/ui/common/testflightsettings');
 var mainWin, settingsWin, leftBtn, rightBtn, osname = Titanium.Platform.osname, slideItLeft, slideItRight;
 
-settingsWin = require('/ui/common/settingsWindow').create();
+settingsWin = require('/ui/common/SettingsWindow').create();
 
 settingsWin.open();
 
