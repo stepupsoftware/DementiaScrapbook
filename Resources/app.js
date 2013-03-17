@@ -18,14 +18,12 @@ mainWin = require('/ui/common/ApplicationWindow').create({
 
 slideItLeft = Titanium.UI.createAnimation({
     left : SIDEBAR,
-    duration : 500,
-    curve : Ti.UI.ANIMATION_CURVE_LINEAR
+    duration : 500
 });
 
 slideItRight = Titanium.UI.createAnimation({
     left : 0,
-    duration : 500,
-    curve : Ti.UI.ANIMATION_CURVE_LINEAR
+    duration : 500
 });
 
 leftBtn = Ti.UI.createButton(_.defaults({

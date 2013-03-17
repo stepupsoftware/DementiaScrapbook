@@ -41,7 +41,7 @@ var ApplicationWindow = function(args) {
             backgroundImage : '/images/112-group.png'
         });
         settings = Ti.UI.createLabel({
-            backgroundImage : '/images/30-key.png'
+            backgroundImage : '/images/20-gear-2.png'
         });
 
         icons = [all, events, postcards, people];
