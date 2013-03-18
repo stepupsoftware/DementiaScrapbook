@@ -25,11 +25,11 @@ slideItRight = Titanium.UI.createAnimation({
     left : 0,
     duration : 500
 });
-
+//TODO resize button or add listener to view, not button
 leftBtn = Ti.UI.createButton(_.defaults({
     backgroundImage : '/images/259-list.png',
-    width : 20,
-    height : 14,
+    width : 40,
+    height : 28,
     toggle : true,borderRadius: 0
 }, theme.tabButton));
 
