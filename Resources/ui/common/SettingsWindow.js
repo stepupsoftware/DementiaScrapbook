@@ -11,7 +11,7 @@ var ApplicationWindow = function(args) {
         win = Ti.UI.createWindow({
             backgroundColor : theme.performApp.grey,
             width : SIDEBAR,
-            left : 0,
+            right : 0,
             height : '100%'
         });
 

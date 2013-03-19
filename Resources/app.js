@@ -6,34 +6,34 @@ theme = require('/ui/common/theme');
 flurry = require('/ui/common/flurrysettings');
 tf = require('/ui/common/testflightsettings');
 SIDEBAR = 80;
-var mainWin, settingsWin, leftBtn, rightBtn, osname = Titanium.Platform.osname, slideItLeft, slideItRight;
+var mainWin, settingsWin, metroBtn, refreshBtn, osname = Titanium.Platform.osname, slideItLeft, slideItRight;
 
 settingsWin = require('/ui/common/SettingsWindow').create();
 
 settingsWin.open();
 
 mainWin = require('/ui/common/ApplicationWindow').create({
-    tabBar : false
+    tabBar : false, title: 'Memories Scrapbook (all photos)'
 });
 
 slideItLeft = Titanium.UI.createAnimation({
-    left : SIDEBAR,
+    right : SIDEBAR,
     duration : 500
 });
 
 slideItRight = Titanium.UI.createAnimation({
-    left : 0,
+    right : 0,
     duration : 500
 });
 //TODO resize button or add listener to view, not button
-leftBtn = Ti.UI.createButton(_.defaults({
+metroBtn = Ti.UI.createButton(_.defaults({
     backgroundImage : '/images/259-list.png',
     width : 40,
     height : 28,
     toggle : true,borderRadius: 0
 }, theme.tabButton));
 
-leftBtn.addEventListener('click', function(e) {
+metroBtn.addEventListener('click', function(e) {
     if (e.source.toggle === true) {
         mainWin.animate(slideItLeft);
         e.source.toggle = false;
@@ -43,14 +43,14 @@ leftBtn.addEventListener('click', function(e) {
     }
 });
 
-rightBtn = Ti.UI.createButton(_.defaults({
+refreshBtn = Ti.UI.createButton(_.defaults({
     backgroundImage : '/images/01-refresh.png',
     width : 24,
     height : 26
 }, theme.tabButton));
 
 //not needed just yet.
-//mainWin.setRightNavButton(rightBtn);
-mainWin.setLeftNavButton(leftBtn);
+mainWin.setRightNavButton(metroBtn);
+mainWin.setLeftNavButton(refreshBtn);
 
 mainWin.open();
