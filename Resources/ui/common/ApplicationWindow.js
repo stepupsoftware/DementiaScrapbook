@@ -66,6 +66,10 @@ var ApplicationWindow = function(args) {
         this.add = function(args) {
             mainView.add(args);
         };
+        
+        this.title = function(title) {
+            lbl.text = title;
+        };
 
         this.navBar = fakeNavBar;
 

@@ -8,7 +8,7 @@ tf = require('/ui/common/testflightsettings');
 SIDEBAR = 100;
 var mainWin, settingsWin, metroBtn, refreshBtn, osname = Titanium.Platform.osname, slideItLeft, slideItRight;
 var callBack = function(e) {
-    alert(e.rowData.id);
+    mainWin.title(e.rowData.id);
 };
 
 
@@ -16,7 +16,7 @@ settingsWin = require('/ui/common/SettingsWindow').create(callBack);
 
 mainWin = require('/ui/common/ApplicationWindow').create({
     tabBar : false,
-    title : 'Memories Scrapbook (all photos)'
+    title : 'all photos'
 });
 
 slideItLeft = Titanium.UI.createAnimation({
@@ -64,3 +64,4 @@ mainWin.setLeftNavButton(metroBtn);
 //need to open settings window last so buttons are active
 mainWin.open();
 settingsWin.open();
+settingsWin.hide();
