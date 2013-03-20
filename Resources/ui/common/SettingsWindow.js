@@ -1,8 +1,9 @@
-/*global L */
+/* global L */
 /*jslint nomen: true, sloppy : true, plusplus: true, vars: true, newcap: true, regexp: true*/
 
 //this window is added outside the navigation group and stays open all the time
-var ApplicationWindow = function(args) {
+var ApplicationWindow = function(callBack) {
+    
     var theme = require('/ui/common/theme');
     try {
         var win, fakeNavBar, view, table, icons, all, events, postcards, people, settings;
@@ -15,33 +16,44 @@ var ApplicationWindow = function(args) {
             height : '100%'
         });
 
-       
         table = Ti.UI.createTableView({
             width : '100%',
             height : Ti.UI.FILL,
-            backgroundColor : theme.performApp.grey, separatorColor: 'transparent'
+            backgroundColor : theme.performApp.grey,
+            separatorColor : 'transparent'
         });
+
+        if (callBack && ( typeof callBack === 'function')) {
+            table.addEventListener('click', callBack);
+        }
 
         view = Ti.UI.createView(_.defaults({
             layout : 'vertical',
             width : '100%',
-            height : Ti.UI.SIZE, top : 40
+            height : Ti.UI.SIZE,
+            top : 0,
+            backgroundColor : theme.performApp.grey
         }, theme.mainView));
 
         all = Ti.UI.createLabel({
-            backgroundImage : '/images/27-planet.png'
+            backgroundImage : '/images/27-planet.png',
+            id : 'all photos'
         });
         events = Ti.UI.createLabel({
-            backgroundImage : '/images/83-calendar.png'
+            backgroundImage : '/images/83-calendar.png',
+            id : 'events'
         });
         postcards = Ti.UI.createLabel({
-            backgroundImage : '/images/43-film-roll.png'
+            backgroundImage : '/images/43-film-roll.png',
+            id : 'postcards'
         });
         people = Ti.UI.createLabel({
-            backgroundImage : '/images/112-group.png'
+            backgroundImage : '/images/112-group.png',
+            id : 'people'
         });
         settings = Ti.UI.createLabel({
-            backgroundImage : '/images/20-gear-2.png'
+            backgroundImage : '/images/20-gear-2.png',
+            id : 'settings'
         });
 
         icons = [all, events, postcards, people];
@@ -51,43 +63,53 @@ var ApplicationWindow = function(args) {
         var addRows = function() {
             var row, view, rows = [], itemsSection, SettingsSection;
             itemsSection = Ti.UI.createTableViewSection({
-                backgroundColor : theme.performApp.lightGrey,
-                title : 'VIEWS',
-                color : 'white'
+                headerTitle : L('views'),
+                color : 'black',
+                font : {
+                    fontSize : 8
+                }
             });
-            //rows.push(itemsSection);
             _.each(icons, function(icon) {
                 row = Ti.UI.createTableViewRow({
                     backgroundColor : theme.performApp.grey,
-                    layout : 'horizontal'
+                    selectedBackgroundColor : theme.performApp.lightGrey,
+                    layout : 'horizontal',
+                    id : icon.id
                 });
                 view = Ti.UI.createView({
                     'height' : 40,
                     left : 10,
-                    layout : 'horizontal', top : 10
+                    layout : 'horizontal',
+                    top : 10
                 });
                 view.add(icon);
                 row.add(view);
-                rows.push(row);
+                itemsSection.add(row);
             });
+            rows.push(itemsSection);
             SettingsSection = Ti.UI.createTableViewSection({
-                backgroundColor : theme.performApp.lightGrey,
-                title : 'SETTINGS',
-                color : 'white'
+                headerTitle : L('settings'),
+                color : 'black',  
+                font : {
+                    fontSize : 8
+                }
             });
-            //rows.push(SettingsSection);
             row = Ti.UI.createTableViewRow({
                 backgroundColor : theme.performApp.grey,
-                layout : 'horizontal'
+                selectedBackgroundColor : theme.performApp.lightGrey,
+                layout : 'horizontal',
+                id : settings.id
             });
             view = Ti.UI.createView({
                 'height' : 40,
                 left : 10,
-                layout : 'horizontal', top : 10
+                layout : 'horizontal',
+                top : 10
             });
             row.add(view);
             view.add(settings);
-            rows.push(row);
+            SettingsSection.add(row);
+            rows.push(SettingsSection);
             return rows;
         };
 
@@ -95,6 +117,11 @@ var ApplicationWindow = function(args) {
 
         win.add(view);
         //public objects
+  
+        //this window is not in the navigation stack
+        this.hide = win.hide;
+        
+        this.show = win.show;
 
         this.open = win.open;
 

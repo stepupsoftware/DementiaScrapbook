@@ -11,4 +11,6 @@
     <string name="me">Me</string>
     <string name="family">Family</string>
     <string name="friends">Friends</string>
+    <string name="views">Views</string>
+    <string name="settings">Settings</string>
 </resources>

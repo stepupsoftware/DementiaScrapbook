@@ -5,15 +5,18 @@ theme = require('/ui/common/theme');
 //model = require('model/model');
 flurry = require('/ui/common/flurrysettings');
 tf = require('/ui/common/testflightsettings');
-SIDEBAR = 80;
+SIDEBAR = 100;
 var mainWin, settingsWin, metroBtn, refreshBtn, osname = Titanium.Platform.osname, slideItLeft, slideItRight;
+var callBack = function(e) {
+    alert(e.rowData.id);
+};
 
-settingsWin = require('/ui/common/SettingsWindow').create();
 
-settingsWin.open();
+settingsWin = require('/ui/common/SettingsWindow').create(callBack);
 
 mainWin = require('/ui/common/ApplicationWindow').create({
-    tabBar : false, title: 'Memories Scrapbook (all photos)'
+    tabBar : false,
+    title : 'Memories Scrapbook (all photos)'
 });
 
 slideItLeft = Titanium.UI.createAnimation({
@@ -30,15 +33,18 @@ metroBtn = Ti.UI.createButton(_.defaults({
     backgroundImage : '/images/259-list.png',
     width : 40,
     height : 28,
-    toggle : true,borderRadius: 0
+    toggle : true,
+    borderRadius : 0
 }, theme.tabButton));
 
 metroBtn.addEventListener('click', function(e) {
     if (e.source.toggle === true) {
-        mainWin.animate(slideItLeft);
+        settingsWin.hide();
+        mainWin.animate(slideItRight);
         e.source.toggle = false;
     } else {
-        mainWin.animate(slideItRight);
+        settingsWin.show();
+        mainWin.animate(slideItLeft);
         e.source.toggle = true;
     }
 });
@@ -49,8 +55,12 @@ refreshBtn = Ti.UI.createButton(_.defaults({
     height : 26
 }, theme.tabButton));
 
-//not needed just yet.
-mainWin.setRightNavButton(metroBtn);
-mainWin.setLeftNavButton(refreshBtn);
 
+//not needed just yet.
+//mainWin.setRightNavButton(refreshBtn);
+mainWin.setLeftNavButton(metroBtn);
+
+
+//need to open settings window last so buttons are active
 mainWin.open();
+settingsWin.open();

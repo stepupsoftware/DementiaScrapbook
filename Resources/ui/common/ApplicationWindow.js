@@ -1,9 +1,8 @@
 /*global L */
 /*jslint nomen: true, sloppy : true, plusplus: true, vars: true, newcap: true, regexp: true*/
 
-var nav = require('ui/common/NavigationController');
-
 var ApplicationWindow = function(args) {
+    var nav = require('ui/common/NavigationController');
     try {
         //private objects
         var win, fakeNavBar, leftNav, midNav, rightNav, mainView, fakeTabBar, backButton;
@@ -58,11 +57,6 @@ var ApplicationWindow = function(args) {
 
         this.home = function() {
             nav.home();
-        };
-
-        //push the window into the navigation stack but don't open it
-        this.push = function() {
-            nav.push(win);
         };
 
         this.open = function() {
