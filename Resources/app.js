@@ -11,7 +11,6 @@ var callBack = function(e) {
     mainWin.title(e.rowData.id);
 };
 
-
 settingsWin = require('/ui/common/SettingsWindow').create(callBack);
 
 mainWin = require('/ui/common/ApplicationWindow').create({
@@ -21,12 +20,14 @@ mainWin = require('/ui/common/ApplicationWindow').create({
 
 slideItLeft = Titanium.UI.createAnimation({
     right : SIDEBAR,
-    duration : 500
+    duration : 1000,
+    curve : Titanium.UI.ANIMATION_CURVE_LINEAR
 });
 
 slideItRight = Titanium.UI.createAnimation({
     right : 0,
-    duration : 500
+    duration : 1000,
+    curve : Titanium.UI.ANIMATION_CURVE_LINEAR
 });
 //TODO resize button or add listener to view, not button
 metroBtn = Ti.UI.createButton(_.defaults({
@@ -57,11 +58,10 @@ refreshBtn = Ti.UI.createButton(_.defaults({
 
 
 //not needed just yet.
-//mainWin.setRightNavButton(refreshBtn);
+//mainWin.setRightNavButton(metroBtn);
 mainWin.setLeftNavButton(metroBtn);
 
 
 //need to open settings window last so buttons are active
 mainWin.open();
 settingsWin.open();
-settingsWin.hide();
