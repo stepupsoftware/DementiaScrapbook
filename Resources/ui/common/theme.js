@@ -4,24 +4,9 @@
 var susUtils = require('sus/utils');
 var pal = {
 
-    tempoBlack : '#111111',
-    tempoGreen : '#bed936',
-
-    pearsonBlue : '#273383',
-    pearsonGreen : '#008b5d',
-    pearsonOrange : '#ed6b06',
-    pearsonPurple : '#9d1348',
-    pearsonCream : '#fbf5ea',
-
-    clinSkillsBlue : '#7DCAEA',
-
-    appcRed : '#CA120D',
-    appcDarkGray : '#787878',
-    appcLightGray : '#343434',
-
-    performApp : {
-        lightOrange : '#ffac27',
-        darkOrange : '#ff8a00',
+    scrapbook : {
+        lightGreen : '#609900',
+        darkGreen : '#487200',
         grey : '#727375',
         lightGrey : '#f5f5f5'
     }
@@ -34,7 +19,7 @@ var ui = {
         'width' : '80%',
         'height' : '60%',
         'style' : Ti.UI.iPhone.SystemButtonStyle.PLAIN,
-        'backgroundColor' : pal.performApp.lightOrange,
+        'backgroundColor' : pal.scrapbook.lightGreen,
         'color' : 'white',
         'font' : {
             'fontSize' : 12,
@@ -50,7 +35,7 @@ var ui = {
     },
 
     homeLabelText : {
-        color : pal.performApp.lightOrange,
+        color : pal.scrapbook.lightGreen,
         backgroundColor : 'transparent',
         width : Ti.UI.FILL,
         left : 15,
@@ -75,7 +60,7 @@ var ui = {
     //ensure that fakeNavBarView, fakeTabBarView, mainView heights do not exceed 100%!!
     fakeNavBarView : {
         height : '15%',
-        //backgroundColor : pal.performApp.darkOrange,
+        //backgroundColor : pal.scrapbook.darkGreen,
         backgroundGradient : {
             type : 'linear',
             startPoint : {
@@ -87,13 +72,13 @@ var ui = {
                 y : '100%'
             },
             colors : [{
-                color : pal.performApp.lightOrange,
+                color : pal.scrapbook.lightGreen,
                 offset : 0.0
             }, {
-                color : pal.performApp.darkOrange,
+                color : pal.scrapbook.darkGreen,
                 offset : 0.5
             }, {
-                color : pal.performApp.lightOrange,
+                color : pal.scrapbook.lightGreen,
                 offset : 1.0
             }]
         },
@@ -102,7 +87,7 @@ var ui = {
 
     fakeTabBarView : {
         height : '10%',
-        backgroundColor : pal.performApp.grey,
+        backgroundColor : pal.scrapbook.grey,
         layout : 'horizontal'
     },
 
@@ -117,7 +102,7 @@ var ui = {
 
     planRow : {
         height : Ti.UI.FILL,
-        backgroundColor : pal.performApp.lightGrey,
+        backgroundColor : pal.scrapbook.lightGrey,
         selectedBackgroundColor : 'white'
     },
 
@@ -157,8 +142,8 @@ var ui = {
         navBarHidden : true
     },
     applicationWindow : {
-        backgroundColor : pal.performApp.lightGrey,
-        barColor : pal.performApp.lightOrange,
+        backgroundColor : pal.scrapbook.lightGrey,
+        barColor : pal.scrapbook.lightGreen,
         navBarHidden : true,
         layout : 'vertical'
     },
@@ -171,7 +156,7 @@ var ui = {
     },
 
     hubHeadings : {
-        'color' : pal.performApp.lightOrange,
+        'color' : pal.scrapbook.lightGreen,
         'font' : {
             'fontSize' : 24,
             'fontWeight' : 'bold'
@@ -191,7 +176,7 @@ var ui = {
     },
 
     contentsWindow : {
-        barColor : pal.performApp.lightOrange,
+        barColor : pal.scrapbook.lightGreen,
         barImage : 'images/topsectionheaderbg.png',
         backgroundColor : pal.clinSkillsBlue
     },

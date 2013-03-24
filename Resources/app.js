@@ -34,7 +34,7 @@ metroBtn = Ti.UI.createButton(_.defaults({
     backgroundImage : '/images/259-list.png',
     width : 40,
     height : 28,
-    toggle : true,
+    toggle : false,
     borderRadius : 0
 }, theme.tabButton));
 
@@ -65,3 +65,5 @@ mainWin.setLeftNavButton(metroBtn);
 //need to open settings window last so buttons are active
 mainWin.open();
 settingsWin.open();
+settingsWin.hide();
+mainWin.animate(slideItRight);
