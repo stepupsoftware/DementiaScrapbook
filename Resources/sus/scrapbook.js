@@ -16,9 +16,12 @@ module.exports = ( function() {
 
         var dropbox = require('/lib/dropbox');
 
+        //TODO should not add my API keys to public repo
+        //keys.js just returns my API keys
+        var keys = require('/sus/keys');
         var client = dropbox.createClient({
-            app_key : 'xxxxxxxxxxx', // <--- you'll want to replace this
-            app_secret : 'xxxxxxxxxxxx'
+            app_key : keys.key, // <--- you'll want to replace this
+            app_secret : keys.secret
         });
 
         // see : https://www.dropbox.com/developers/apps
