@@ -111,7 +111,13 @@ module.exports = ( function() {
                 } else {
                     //add changes to the database
                     _.each(reply.entries, function(entry) {
-                        model.merge(entry[1], 'path', true);
+                        if (entry[1] === null) {
+                            model.remove({
+                                path : entry[0]
+                            });
+                        } else {
+                            model.merge(entry[1], 'path', true);
+                        }
                     });
                 }
                 if (reply.cursor && reply.cursor !== cursor) {

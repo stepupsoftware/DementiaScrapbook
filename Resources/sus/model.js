@@ -94,8 +94,10 @@ var Model = function(args) {
         this.insert = insert;
 
         this.merge = merge;
-        this.remove = function() {
-            db().remove(true);
+        this.remove = function(args) {
+            
+            //TODO remove needs to search for an item, return its ID and then remove it
+            db().remove(args, true);
             db.save();
 
         };

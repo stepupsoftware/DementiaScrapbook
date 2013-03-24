@@ -6,7 +6,8 @@ models = require('/model/model').models;
 flurry = require('/ui/common/flurrysettings');
 tf = require('/ui/common/testflightsettings');
 var scrapbook = require('/sus/scrapbook');
-scrapbook.initialise();
+//TODO if taffydb index exists, connect if not initialise
+scrapbook.connect();
 //scrapbook.getFiles();
 
 SIDEBAR = 100;
