@@ -113,7 +113,7 @@ exports.createClient = function(config) {
                 Ti.API.info('ONSENDSTREAM - PROGRESS: ' + e.progress);
             },
             onload : function() {
-                if(client.status == 200) {
+                if(client.status === 200) {
                     Ti.API.info(this.responseText);
                 } else {
                     Ti.API.info(this.responseText);
@@ -318,7 +318,8 @@ exports.createClient = function(config) {
 
             var params = sign(options);
             var urlX = "";
-            for(var a in params) {
+            var a;
+            for(a in params) {
                 if(a){
                     urlX += Titanium.Network.encodeURIComponent(a) + '=' + Titanium.Network.encodeURIComponent(params[a]) + '&';
                 }
@@ -342,7 +343,8 @@ exports.createClient = function(config) {
 
             var params = sign(options);
             var urlX = "";
-            for(var a in params) {
+            var a;
+            for(a in params) {
                 if(a){
                     urlX += Titanium.Network.encodeURIComponent(a) + '=' + Titanium.Network.encodeURIComponent(params[a]) + '&';
                 }
@@ -366,7 +368,8 @@ exports.createClient = function(config) {
 
             var params = sign(options);
             var urlX = "";
-            for(var a in params) {
+            var a;
+            for(a in params) {
                 if(a){
                     urlX += Titanium.Network.encodeURIComponent(a) + '=' + Titanium.Network.encodeURIComponent(params[a]) + '&';
                 }
@@ -391,7 +394,8 @@ exports.createClient = function(config) {
 
             var params = sign(options);
             var urlX = "";
-            for(var a in params) {
+            var a;
+            for(a in params) {
                 if(a){
                     urlX += Titanium.Network.encodeURIComponent(a) + '=' + Titanium.Network.encodeURIComponent(params[a]) + '&';
                 }
@@ -491,7 +495,8 @@ exports.createClient = function(config) {
 
             var params = sign(options);
             var urlX = "";
-            for(var a in params) {
+            var a;
+            for(a in params) {
                 if(a){
                     urlX += Titanium.Network.encodeURIComponent(a) + '=' + Titanium.Network.encodeURIComponent(params[a]) + '&';
                 }
@@ -632,7 +637,8 @@ exports.createClient = function(config) {
             var params = sign(options);
 
             var urlX = "";
-            for(var a in params) {
+            var a;
+            for(a in params) {
                 if(a){
                     urlX += Titanium.Network.encodeURIComponent(a) + '=' + Titanium.Network.encodeURIComponent(params[a]) + '&';
                 }

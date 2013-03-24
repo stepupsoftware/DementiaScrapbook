@@ -51,5 +51,6 @@
         <module platform="iphone" version="1.5">com.0x82.testflight</module>
         <module platform="iphone" version="1.0">com.obscure.keychain</module>
         <module platform="android" version="1.0">com.obscure.keychain</module>
+        <module platform="iphone" version="0.1">com.kosso.cookiejar</module>
     </modules>
 </ti:app>

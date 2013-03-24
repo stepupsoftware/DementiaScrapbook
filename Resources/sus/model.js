@@ -2,9 +2,8 @@
 /*jslint nomen: true, sloppy : true, plusplus: true, vars: true, newcap: true, regexp: true*/
 
 if (!_) {
-    var _ = require('lib/underscore-min');
+    var _ = require('lib/underscore');
 }
-var connector = require('sus/connector');
 
 var Model = function(args) {
     //private objects
@@ -98,40 +97,6 @@ var Model = function(args) {
         this.remove = function() {
             db().remove(true);
             db.save();
-
-        };
-        this.sync = function(conn, data) {
-            var connection, onLoad, onError;
-            try {
-                if (!conn) {
-                    throw new Error('invalid parameters provided to update');
-                }
-                onLoad = function(e) {
-                    var data, dataObj, key, keyString;
-                    try {
-                        data = this.responseText;
-                        dataObj = JSON.parse(data);
-                        if (!dataObj) {
-                            throw new Error('data returned from server is not JSON');
-                        }
-                    } catch (ex) {
-                        msg = ex || ex.message;
-                        Ti.API.error(msg);
-                    } finally {
-                        merge(dataObj, 'id', true);
-                    }
-                };
-                onError = function(e) {
-                    msg = 'error :' + this.status + ': ' + this.responseText;
-                    Ti.API.error('unable to sync model error ' + msg);
-                };
-                connection = connector.create(conn, data, onLoad, onError);
-            } catch(ex) {
-
-                msg = ex.message || ex || 'unknown';
-                Ti.API.error('unable to create model error ' + msg + ' thrown');
-
-            } 
 
         };
     } catch (ex) {

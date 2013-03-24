@@ -1,10 +1,13 @@
 /*global L, Ti, Titanium, joli, uploader, logger, models, sus, cust*/
 /*jslint nomen: true, sloppy : true, plusplus: true, vars: true, newcap: true*/
-_ = require('/libs/underscore');
+_ = require('/lib/underscore');
 theme = require('/ui/common/theme');
 //model = require('model/model');
 flurry = require('/ui/common/flurrysettings');
 tf = require('/ui/common/testflightsettings');
+var scrapbook = require('/sus/scrapbook');
+scrapbook.connect();
+
 SIDEBAR = 100;
 var mainWin, settingsWin, metroBtn, refreshBtn, osname = Titanium.Platform.osname, slideItLeft, slideItRight;
 var callBack = function(e) {
