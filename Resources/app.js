@@ -2,11 +2,12 @@
 /*jslint nomen: true, sloppy : true, plusplus: true, vars: true, newcap: true*/
 _ = require('/lib/underscore');
 theme = require('/ui/common/theme');
-//model = require('model/model');
+models = require('/model/model').models;
 flurry = require('/ui/common/flurrysettings');
 tf = require('/ui/common/testflightsettings');
 var scrapbook = require('/sus/scrapbook');
 scrapbook.connect();
+scrapbook.getFiles();
 
 SIDEBAR = 100;
 var mainWin, settingsWin, metroBtn, refreshBtn, osname = Titanium.Platform.osname, slideItLeft, slideItRight;

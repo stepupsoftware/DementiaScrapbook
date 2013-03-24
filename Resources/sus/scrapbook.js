@@ -6,12 +6,13 @@
 
 module.exports = ( function() {
         var cookiejar = require('com.kosso.cookiejar');
-        var models = require('/model/model').models;
         var model = models.entries;
         var logout = function() {
             cookiejar.clearWebViewCookies('.dropbox.com');
             Ti.App.Properties.setString('DROPBOX_TOKENS', null);
         };
+
+        var folder = Titanium.Filesystem.applicationDataDirectory + '/scrapbook';
 
         var dropbox = require('/lib/dropbox');
 
@@ -43,17 +44,51 @@ module.exports = ( function() {
             });
         };
 
-        var getFile = function(file) {
+        var getFiles = function() {
+            var files;
+            try {
+                files = model.get();
 
-            var options = {
-            };
-            client.get(file, options, function(status, reply) {
-                Ti.API.info(status);
-                Ti.API.info(reply);
-            });
+                if (client.isAuthorized()) {
+                    _.each(files, function(file) {
+                        if (file && file[1] &&(!file[1].is_dir)) {
+                            getFile(file[0]);
+                        }
+                        
+                    });
+                } else {
+                    //login and recurse back into function
+                    client.login(function(options) {
+                        getFiles();
+                    });
+                }
+            } catch (ex) {
+                msg = ex.message || ex || 'something went wrong with getFiles ';
+                Ti.API.error(msg);
+            }
+        };
+        var getFile = function(file) {
+            var msg, options;
+            if (!file) {
+                throw new Error('no file specified');
+            }
+            if ( typeof file !== 'string') {
+                throw new Error('file specified is not a string');
+            }
+            try {
+                options = {
+                };
+                client.get(file, options, function(status, reply) {
+                    Ti.API.info(status);
+                    Ti.API.info(reply);
+                });
+            } catch (ex) {
+                msg = ex.message || ex || 'something went wrong with getFile ' + file;
+            }
+
         };
         var getDelta = function() {
-            
+
             var options = {
             };
             var cursor = Ti.App.Properties.getString('cursor');
@@ -62,10 +97,16 @@ module.exports = ( function() {
             }
             client.delta(options, function(status, reply) {
                 Ti.API.info(status);
-                Ti.API.info(reply);
+                //Ti.API.info(reply);
+                //nuke all the current details and start over
                 if (reply.reset) {
                     model.remove();
                     model.merge(reply.entries);
+                    Ti.App.Properties.removeProperty('cursor');
+                    Ti.App.Properties.setString('cursor', reply.cursor);
+                }
+                if (reply.cursor && reply.cursor !== cursor) {
+                    //update the cursor value
                     Ti.App.Properties.removeProperty('cursor');
                     Ti.App.Properties.setString('cursor', reply.cursor);
                 }
@@ -170,7 +211,9 @@ module.exports = ( function() {
         };
 
         return {
-            connect : connect, 
-            getFile : getFile
+            client : client,
+            connect : connect,
+            getFile : getFile,
+            getFiles : getFiles
         };
     }());
