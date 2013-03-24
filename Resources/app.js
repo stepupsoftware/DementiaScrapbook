@@ -6,8 +6,8 @@ models = require('/model/model').models;
 flurry = require('/ui/common/flurrysettings');
 tf = require('/ui/common/testflightsettings');
 var scrapbook = require('/sus/scrapbook');
-scrapbook.connect();
-scrapbook.getFiles();
+scrapbook.initialise();
+//scrapbook.getFiles();
 
 SIDEBAR = 100;
 var mainWin, settingsWin, metroBtn, refreshBtn, osname = Titanium.Platform.osname, slideItLeft, slideItRight;

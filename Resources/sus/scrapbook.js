@@ -51,10 +51,10 @@ module.exports = ( function() {
 
                 if (client.isAuthorized()) {
                     _.each(files, function(file) {
-                        if (file && file[1] &&(!file[1].is_dir)) {
+                        if (file && file[1] && (!file[1].is_dir)) {
                             getFile(file[0]);
                         }
-                        
+
                     });
                 } else {
                     //login and recurse back into function
@@ -87,13 +87,15 @@ module.exports = ( function() {
             }
 
         };
-        var getDelta = function() {
+        var getDelta = function(args) {
 
-            var options = {
+            var cursor, options = {
             };
-            var cursor = Ti.App.Properties.getString('cursor');
-            if (cursor) {
-                options.cursor = cursor;
+            if (args.reset === false) {
+                cursor = Ti.App.Properties.getString('cursor');
+                if (cursor) {
+                    options.cursor = cursor;
+                }
             }
             client.delta(options, function(status, reply) {
                 Ti.API.info(status);
@@ -101,9 +103,16 @@ module.exports = ( function() {
                 //nuke all the current details and start over
                 if (reply.reset) {
                     model.remove();
-                    model.merge(reply.entries);
+                    _.each(reply.entries, function(entry) {
+                        model.merge(entry[1], 'path', true);
+                    });
                     Ti.App.Properties.removeProperty('cursor');
                     Ti.App.Properties.setString('cursor', reply.cursor);
+                } else {
+                    //add changes to the database
+                    _.each(reply.entries, function(entry) {
+                        model.merge(entry[1], 'path', true);
+                    });
                 }
                 if (reply.cursor && reply.cursor !== cursor) {
                     //update the cursor value
@@ -201,12 +210,29 @@ module.exports = ( function() {
             });
         };
 
-        var connect = function() {
+        var initialise = function() {
             if (client.isAuthorized()) {
-                getDelta();
+                getDelta({
+                    reset : true
+                });
             }
             client.login(function(options) {
-                getDelta();
+                getDelta({
+                    reset : true
+                });
+            });
+        };
+
+        var connect = function() {
+            if (client.isAuthorized()) {
+                getDelta({
+                    reset : false
+                });
+            }
+            client.login(function(options) {
+                getDelta({
+                    reset : false
+                });
             });
         };
 
@@ -214,6 +240,7 @@ module.exports = ( function() {
             client : client,
             connect : connect,
             getFile : getFile,
-            getFiles : getFiles
+            getFiles : getFiles,
+            initialise : initialise
         };
     }());
