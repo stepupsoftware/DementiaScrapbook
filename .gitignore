@@ -37,3 +37,5 @@ node_modules
 dist
 build
 .fastdev.lock
+#for security reasons
+sus/keys.js
