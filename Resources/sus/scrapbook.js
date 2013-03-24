@@ -17,8 +17,8 @@ module.exports = ( function() {
         var dropbox = require('/lib/dropbox');
 
         var client = dropbox.createClient({
-            app_key : '58jhlk7egohvmk3', // <--- you'll want to replace this
-            app_secret : 'vgid87jz6p5rnwu'
+            app_key : 'xxxxxxxxxxx', // <--- you'll want to replace this
+            app_secret : 'xxxxxxxxxxxx'
         });
 
         // see : https://www.dropbox.com/developers/apps
