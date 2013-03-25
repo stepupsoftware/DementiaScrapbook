@@ -8,7 +8,7 @@ tf = require('/ui/common/testflightsettings');
 var scrapbook = require('/sus/scrapbook');
 //TODO if taffydb index exists, connect if not initialise
 //TODO download files and show an activity indicator until work is finished
-scrapbook.connect();
+scrapbook.initialise();
 
 SIDEBAR = 100;
 var mainWin, settingsWin, metroBtn, refreshBtn, osname = Titanium.Platform.osname, slideItLeft, slideItRight;

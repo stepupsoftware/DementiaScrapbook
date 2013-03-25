@@ -6,7 +6,7 @@
 
 module.exports = ( function() {
         var cookiejar = require('com.kosso.cookiejar');
-        var model = models.entries;
+        var model = models.contents;
         var logout = function() {
             cookiejar.clearWebViewCookies('.dropbox.com');
             Ti.App.Properties.setString('DROPBOX_TOKENS', null);
@@ -21,7 +21,7 @@ module.exports = ( function() {
         var keys = require('/sus/keys');
         var client = dropbox.createClient({
             app_key : keys.key, // <--- you'll want to replace this
-            app_secret : keys.secret
+            app_secret : keys.secret, root : 'dropbox'
         });
 
         // see : https://www.dropbox.com/developers/apps
@@ -92,55 +92,41 @@ module.exports = ( function() {
         };
         var getDelta = function(args) {
 
-            var cursor, options = {
-            };
-            if (args.reset === false) {
-                cursor = Ti.App.Properties.getString('cursor');
-                if (cursor) {
-                    options.cursor = cursor;
-                }
-            }
             client.delta(options, function(status, reply) {
                 Ti.API.info(status);
-                //Ti.API.info(reply);
-                //nuke all the current details and start over
-                if (reply.reset) {
-                    model.remove();
-                    _.each(reply.entries, function(entry) {
-                        model.merge(entry[1], 'path', true);
-                    });
-                    Ti.App.Properties.removeProperty('cursor');
-                    Ti.App.Properties.setString('cursor', reply.cursor);
-                } else {
-                    //add changes to the database
-                    _.each(reply.entries, function(entry) {
-                        if (entry[1] === null) {
-                            model.remove({
-                                path : entry[0]
-                            });
-                        } else {
-                            model.merge(entry[1], 'path', true);
-                        }
-                    });
-                }
-                if (reply.cursor && reply.cursor !== cursor) {
-                    //update the cursor value
-                    Ti.App.Properties.removeProperty('cursor');
-                    Ti.App.Properties.setString('cursor', reply.cursor);
-                }
+                Ti.API.info(reply);
             });
         };
-        var getMetaData = function() {
+        var getMetaData = function(args) {
 
-            var options = {
-                file_limit : 10000,
+            var hash, options = {
+            };
+            if (args.reset === false) {
+                hash = Ti.App.Properties.getString('hash');
+                if (hash) {
+                    options.hash = hash;
+                }
+            }
+
+            options = {
+                file_limit : 1000,
                 list : true,
                 include_deleted : false,
                 locale : "en"
             };
-            client.metadata("build.sh", options, function(status, reply) {
+            client.metadata("scrapbook", options, function(status, reply) {
                 Ti.API.info(status);
-                Ti.API.info(reply);
+                //Ti.API.info(reply);
+                //nuke all the current details and start over
+                if (reply.hash && reply.hash !== hash) {
+                    //update the hash value
+                    model.remove();
+                    _.each(reply.contents, function(entry) {
+                        model.merge(entry, 'path', true);
+                    });
+                    Ti.App.Properties.removeProperty('hash');
+                    Ti.App.Properties.setString('hash', reply.hash);
+                }
             });
         };
         var getRevisions = function() {
@@ -221,25 +207,26 @@ module.exports = ( function() {
 
         var initialise = function() {
             if (client.isAuthorized()) {
-                getDelta({
+                getMetaData({
                     reset : true
+                });
+            } else {
+                client.login(function(options) {
+                    getMetaData({
+                        reset : true
+                    });
                 });
             }
-            client.login(function(options) {
-                getDelta({
-                    reset : true
-                });
-            });
         };
 
         var connect = function() {
             if (client.isAuthorized()) {
-                getDelta({
+                getMetaData({
                     reset : false
                 });
             }
             client.login(function(options) {
-                getDelta({
+                getMetaData({
                     reset : false
                 });
             });

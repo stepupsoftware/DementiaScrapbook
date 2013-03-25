@@ -5,8 +5,8 @@ var models = {};
 
 //callbackFunctions for models
 
-models.entries = model.create({
-    db : 'entries'
+models.contents = model.create({
+    db : 'contents'
 });
 module.exports = {
     models : models
