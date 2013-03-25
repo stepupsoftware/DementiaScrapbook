@@ -47,29 +47,6 @@ module.exports = ( function() {
             });
         };
 
-        var getFiles = function() {
-            var files;
-            try {
-                files = model.get();
-
-                if (client.isAuthorized()) {
-                    _.each(files, function(file) {
-                        if (file && file[1] && (!file[1].is_dir)) {
-                            getFile(file[0]);
-                        }
-
-                    });
-                } else {
-                    //login and recurse back into function
-                    client.login(function(options) {
-                        getFiles();
-                    });
-                }
-            } catch (ex) {
-                msg = ex.message || ex || 'something went wrong with getFiles ';
-                Ti.API.error(msg);
-            }
-        };
         var getFile = function(file) {
             var msg, options;
             if (!file) {
@@ -236,7 +213,6 @@ module.exports = ( function() {
             client : client,
             connect : connect,
             getFile : getFile,
-            getFiles : getFiles,
             initialise : initialise
         };
     }());
