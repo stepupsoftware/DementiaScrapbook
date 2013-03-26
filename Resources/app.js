@@ -9,6 +9,7 @@ var scrapbook = require('/sus/scrapbook');
 //TODO if taffydb index exists, connect if not initialise
 //TODO download files and show an activity indicator until work is finished
 scrapbook.initialise();
+scrapbook.download();
 
 SIDEBAR = 100;
 var mainWin, settingsWin, metroBtn, refreshBtn, osname = Titanium.Platform.osname, slideItLeft, slideItRight;

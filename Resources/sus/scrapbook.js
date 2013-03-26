@@ -11,17 +11,29 @@ module.exports = ( function() {
             cookiejar.clearWebViewCookies('.dropbox.com');
             Ti.App.Properties.setString('DROPBOX_TOKENS', null);
         };
+        //files from dropbox will be stored here
+        var folderName = Titanium.Filesystem.applicationDataDirectory + 'scrapbook';
+        var folder = Ti.Filesystem.getFile(folderName);
 
-        var folder = Titanium.Filesystem.applicationDataDirectory + '/scrapbook';
+        if (!folder.exists()) {
+            folder.createDirectory();
+        }
 
         var dropbox = require('/lib/dropbox');
 
-        //TODO should not add my API keys to public repo
-        //keys.js just returns my API keys
+        //
+        // keys.js should be added to your project.  it should simply export your dropbox keys, e.g.
+        // module.exports = ( function() {
+        //       return {
+        //            key : 'xxxxxxx',
+        //            secret : 'xxxxxxxx'
+        //        };
+        //    }());
         var keys = require('/sus/keys');
         var client = dropbox.createClient({
             app_key : keys.key, // <--- you'll want to replace this
-            app_secret : keys.secret, root : 'dropbox'
+            app_secret : keys.secret,
+            root : 'dropbox'
         });
 
         // see : https://www.dropbox.com/developers/apps
@@ -47,20 +59,41 @@ module.exports = ( function() {
             });
         };
 
+        var getFiles = function() {
+            var contents = model.get();
+            _.each(contents, function(item) {
+                getFile(item.path);
+            });
+
+        };
+
         var getFile = function(file) {
-            var msg, options;
+            var msg, options, fullpath, outstream;
+            fullpath = Titanium.Filesystem.applicationDataDirectory + file;
+            outstream = Titanium.Filesystem.getFile(fullpath);
             if (!file) {
                 throw new Error('no file specified');
             }
             if ( typeof file !== 'string') {
                 throw new Error('file specified is not a string');
             }
+            if (outstream.exists()) {
+                outstream.deleteFile();
+            }
             try {
                 options = {
                 };
-                client.get(file, options, function(status, reply) {
-                    Ti.API.info(status);
-                    Ti.API.info(reply);
+                client.get(file, options, function(status, reply, header) {
+                    //had problems writing large files so used solution from
+                    //https://developer.appcelerator.com/question/119890/httpclient-memory-leak-when-downloading-large-files-using-filestream-instead
+                    var data, instream, buffer, read_bytes;
+                    if (reply && reply.responseData && reply.readyState === 4) {
+                        if (outstream.write(reply.responseData)) {
+                            Ti.API.debug('wrote file ' +file);
+                        } else {
+                            Ti.API.debug('could not write file ' +file);                            
+                        }
+                    }
                 });
             } catch (ex) {
                 msg = ex.message || ex || 'something went wrong with getFile ' + file;
@@ -196,23 +229,35 @@ module.exports = ( function() {
             }
         };
 
+        var download = function() {
+            if (client.isAuthorized()) {
+                getFiles();
+            } else {
+                client.login(function(options) {
+                    getFiles();
+                });
+            }
+        };
+
         var connect = function() {
             if (client.isAuthorized()) {
                 getMetaData({
                     reset : false
                 });
-            }
-            client.login(function(options) {
-                getMetaData({
-                    reset : false
+            } else {
+                client.login(function(options) {
+                    getMetaData({
+                        reset : false
+                    });
                 });
-            });
+            }
         };
 
         return {
             client : client,
             connect : connect,
             getFile : getFile,
-            initialise : initialise
+            initialise : initialise,
+            download : download
         };
     }());
