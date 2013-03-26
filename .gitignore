@@ -38,4 +38,4 @@ dist
 build
 .fastdev.lock
 #for security reasons
-sus/keys.js
+Resources/sus/keys.js
