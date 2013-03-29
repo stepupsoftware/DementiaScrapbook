@@ -15,17 +15,13 @@ var contents = models.contents.get();
 if (!contents) {
     scrapbook.initialise();
 }
-var folderName = Ti.App.Properties.getString('scrapbook') || Titanium.Filesystem.applicationDataDirectory + 'scrapbook';       
+var folderName = Ti.App.Properties.getString('scrapbook') || Titanium.Filesystem.applicationDataDirectory + 'scrapbook';
 var folder = Ti.Filesystem.getFile(folderName);
 var directoryContents = folder.getDirectoryListing();
 
 if (_.size(directoryContents) === 0) {
     scrapbook.download();
 }
-
-
-
-
 
 SIDEBAR = 100;
 var mainWin, settingsWin, metroBtn, refreshBtn, osname = Titanium.Platform.osname, slideItLeft, slideItRight;
@@ -80,11 +76,22 @@ refreshBtn = Ti.UI.createButton(_.defaults({
     height : 26
 }, theme.tabButton));
 
-
 //not needed just yet.
 //mainWin.setRightNavButton(metroBtn);
 mainWin.setLeftNavButton(metroBtn);
 
+mainWin.addEventListener('dblclick', function() {
+    scrollView.setTimer();
+});
+
+mainWin.addEventListener('swipe', function(e) {
+    if (e.direction === 'left') {
+        scrollView.setDirection('left');
+    } else {
+        scrollView.setDirection('right');
+    }
+
+});
 
 //need to open settings window last so buttons are active
 mainWin.open();

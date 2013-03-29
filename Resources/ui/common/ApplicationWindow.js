@@ -82,6 +82,10 @@ var ApplicationWindow = function(args) {
         this.setLeftNavButton = function(button) {
             leftNav.add(button);
         };
+        
+        this.addEventListener = win.addEventListener;
+        this.removeEventListener = win.removeEventListener;
+        
 
         //facade for titanium methods and properties on any ti objects in this window
         this.animate = win.animate;

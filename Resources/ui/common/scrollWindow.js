@@ -56,15 +56,57 @@ var ScrollWindow = function(args) {
         var number = _.size(views);
         var t = 0;
         var interval = Ti.App.Properties.getInt('interval') || 5000;
-        setInterval(function(e) {
-            if(t >= number) {
-                t = 0;
-            } 
-            scrollableView.scrollToView(t);
-            t++;
+        //get the window to autoscroll
+        var intval;
+        var scroll = true;
+        var direction = 'left';
+        intval = setInterval(function(e) {
+            if (scroll) {
+                if (direction === 'left') {
+                    //scroll up
+                    if (t >= number) {
+                        t = 0;
+                    }
+                    scrollableView.scrollToView(t);
+                    t++;
+                } else {
+                    //scroll down
+                    if (t === 0) {
+                        t = number;
+                    }
+                    scrollableView.scrollToView(t);
+                    t--;
+                }
+            }
         }, interval);
 
         this.view = scrollableView;
+
+        this.setTimer = function() {
+            var dialog, msg;
+            //toggle scrolling on and off
+            scroll = !scroll;
+            if (scroll) {
+                msg = 'scrolling has resumed. Click screen to pause';
+            } else {
+                msg = 'scrolling has stopped.  Click screen to resume';
+            }
+            Ti.API.debug('scrolling is ' + scroll);
+            dialog = Ti.UI.createAlertDialog({
+                message : msg,
+                ok : 'ok'
+            });
+            dialog.show();
+            setTimeout(function() {
+                dialog.hide();
+            }, 5000);
+
+        };
+        
+        this.setDirection = function(args) {
+            direction = args || 'left';
+            Ti.API.debug('scrolling is ' + direction);
+        };
 
     } catch (ex) {
 
