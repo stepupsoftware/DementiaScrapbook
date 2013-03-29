@@ -5,55 +5,71 @@ var ScrollWindow = function(args) {
 
     try {
 
-        var contents = models.contents.get();
-        var folderName = Ti.App.Properties.getString('scrapbook') || Titanium.Filesystem.applicationDataDirectory + 'scrapbook';
-        var folder = Ti.Filesystem.getFile(folderName);
-        var directoryContents = folder.getDirectoryListing();
-        var photos = [], views = [];
-        if (!contents || _.size(directoryContents) === 0 || !directoryContents) {
-            throw new Error('no contents');
-        }
-
-        //get a list of photographs
-        _.each(contents, function(item) {
-
-            if (item.mime_type.indexOf("image") !== -1) {
-                photos.push(item.path);
-            }
-
-        });
-
-        //check that the file exists and create an imageView if it does.
-        _.each(photos, function(photo) {
-
-            var view, image;
-            var fileName = Titanium.Filesystem.applicationDataDirectory + photo;
-            var file = Ti.Filesystem.getFile(fileName);
-
-            if (file.exists()) {
-                view = Ti.UI.createView({
-                    backgroundColor : '#fff'
-                });
-                image = Ti.UI.createImageView({
-                    image : fileName,
-                    height : '80%',
-                    width : '80%'
-                });
-                view.add(image);
-                views.push(view);
-            } else {
-                Ti.API.error(fileName + ' is missing');
-            }
-
-        });
-
         var scrollableView = Ti.UI.createScrollableView({
-            views : views,
             showPagingControl : false
         });
 
+        var addImages = function(args) {
+
+            var contents = models.contents.get();
+            var folderName = Ti.App.Properties.getString('scrapbook') || Titanium.Filesystem.applicationDataDirectory + 'scrapbook';
+            var folder = Ti.Filesystem.getFile(folderName);
+            var directoryContents = folder.getDirectoryListing();
+            var photos = [], views = [];
+
+            //remove child windows from scrollableView
+
+            if (scrollableView.children) {
+                _.each(scrollableView.children, function(kid) {
+                    scrollableView.remove(kid);
+                });
+            }
+
+            if (!contents || _.size(directoryContents) === 0 || !directoryContents) {
+                throw new Error('no contents');
+            }
+
+            //get a list of photographs
+            _.each(contents, function(item) {
+
+                if (item.mime_type.indexOf("image") !== -1) {
+                    photos.push(item.path);
+                }
+
+            });
+
+            //check that the file exists and create an imageView if it does.
+            _.each(photos, function(photo) {
+
+                var view, image;
+                var fileName = Titanium.Filesystem.applicationDataDirectory + photo;
+                var file = Ti.Filesystem.getFile(fileName);
+
+                if (file.exists()) {
+                    view = Ti.UI.createView({
+                        backgroundColor : '#fff'
+                    });
+                    image = Ti.UI.createImageView({
+                        image : fileName,
+                        height : '80%',
+                        width : '80%'
+                    });
+                    view.add(image);
+                    views.push(view);
+                } else {
+                    Ti.API.error(fileName + ' is missing');
+                }
+
+            });
+
+            return views;
+
+        };
+        
+        scrollableView.views = addImages();
+
         //get the number of views (photos)
-        var number = _.size(views);
+        var number = _.size(scrollableView.getViews());
         var t = 0;
         var interval = Ti.App.Properties.getInt('interval') || 5000;
         //get the window to autoscroll
@@ -102,7 +118,7 @@ var ScrollWindow = function(args) {
             }, 5000);
 
         };
-        
+
         this.setDirection = function(args) {
             direction = args || 'left';
             Ti.API.debug('scrolling is ' + direction);
