@@ -1,15 +1,31 @@
-/*global L, Ti, Titanium, joli, uploader, logger, models, sus, cust*/
+/*global L, Ti, Titanium, joli, uploader, logger, sus, cust*/
 /*jslint nomen: true, sloppy : true, plusplus: true, vars: true, newcap: true*/
-_ = require('/lib/underscore');
+_ = require('/lib/underscore-min');
 theme = require('/ui/common/theme');
 models = require('/model/model').models;
 flurry = require('/ui/common/flurrysettings');
 tf = require('/ui/common/testflightsettings');
 var scrapbook = require('/sus/scrapbook');
-//TODO if taffydb index exists, connect if not initialise
+var scrollView = require('/ui/common/scrollWindow').create();
+
 //TODO download files and show an activity indicator until work is finished
-scrapbook.initialise();
-scrapbook.download();
+Ti.App.Properties.setInt('interval', 5000);
+Ti.App.Properties.setString('scrapbook', Titanium.Filesystem.applicationDataDirectory + 'scrapbook');
+var contents = models.contents.get();
+if (!contents) {
+    scrapbook.initialise();
+}
+var folderName = Ti.App.Properties.getString('scrapbook') || Titanium.Filesystem.applicationDataDirectory + 'scrapbook';       
+var folder = Ti.Filesystem.getFile(folderName);
+var directoryContents = folder.getDirectoryListing();
+
+if (_.size(directoryContents) === 0) {
+    scrapbook.download();
+}
+
+
+
+
 
 SIDEBAR = 100;
 var mainWin, settingsWin, metroBtn, refreshBtn, osname = Titanium.Platform.osname, slideItLeft, slideItRight;
@@ -23,6 +39,8 @@ mainWin = require('/ui/common/ApplicationWindow').create({
     tabBar : false,
     title : 'all photos'
 });
+
+mainWin.add(scrollView.view);
 
 slideItLeft = Titanium.UI.createAnimation({
     right : SIDEBAR,

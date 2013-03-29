@@ -1,7 +1,7 @@
 /*global L, Ti, Titanium, joli, uploader, logger, models, sus, cust*/
 /*jslint nomen: true, sloppy : true, plusplus: true, vars: true, newcap: true*/
 var theme = require('/ui/common/theme');
-var _ = require('/lib/underscore');
+var _ = require('/lib/underscore-min');
 SingleWindow = function(options) {
     var that = this;
     if (!( that instanceof SingleWindow)) {

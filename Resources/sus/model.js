@@ -2,7 +2,7 @@
 /*jslint nomen: true, sloppy : true, plusplus: true, vars: true, newcap: true, regexp: true*/
 
 if (!_) {
-    var _ = require('lib/underscore');
+    var _ = require('lib/underscore-min');
 }
 
 //this constructor is a facade to the titaffydb library.

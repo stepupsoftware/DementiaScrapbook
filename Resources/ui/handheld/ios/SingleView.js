@@ -4,7 +4,7 @@
 //this was the improved POC done the week after the hackday
 
 var theme = require('/ui/common/theme');
-var _ = require('/lib/underscore');
+var _ = require('/lib/underscore-min');
 SingleWindow = function(options) {
     var that = this;
     if (!( that instanceof SingleWindow)) {

@@ -12,7 +12,7 @@ module.exports = ( function() {
             Ti.App.Properties.setString('DROPBOX_TOKENS', null);
         };
         //files from dropbox will be stored here
-        var folderName = Titanium.Filesystem.applicationDataDirectory + 'scrapbook';
+        var folderName = Ti.App.Properties.getString('scrapbook') || Titanium.Filesystem.applicationDataDirectory + 'scrapbook';
         var folder = Ti.Filesystem.getFile(folderName);
 
         if (!folder.exists()) {
