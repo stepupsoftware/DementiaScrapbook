@@ -11,6 +11,9 @@ models.contents = model.create({
 models.people = model.create({
     db : 'people'
 });
+models.photos = model.create({
+    db : 'photos'
+});
 models.events = model.create({
     db : 'events'
 });

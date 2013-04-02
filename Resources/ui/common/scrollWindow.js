@@ -14,7 +14,7 @@ var ScrollWindow = function(args) {
 		});
 
 		var getModelData = function(args) {
-
+			//TODO prb wrong location for this stuff.  Move to sync? or initialise function in models object
 			var file, fileName, model, dataJSON;
 
 			try {
@@ -53,6 +53,11 @@ var ScrollWindow = function(args) {
 		getModelData({
 			model : 'postcards',
 			file : '/postcards.json'
+		});
+		
+		getModelData({
+			model : 'photos',
+			file : '/photos.json'
 		});
 
 		var addImages = function(args) {
