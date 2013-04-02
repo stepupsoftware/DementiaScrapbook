@@ -8,6 +8,18 @@ var models = {};
 models.contents = model.create({
     db : 'contents'
 });
+models.people = model.create({
+    db : 'people'
+});
+models.events = model.create({
+    db : 'events'
+});
+models.postcards = model.create({
+    db : 'postcards'
+});
+models.settings = model.create({
+    db : 'settings'
+});
 module.exports = {
     models : models
 };
