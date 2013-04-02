@@ -3,16 +3,15 @@
 _ = require('/lib/underscore-min');
 theme = require('/ui/common/theme');
 models = require('/model/model').models;
-flurry = require('/ui/common/flurrysettings');
-tf = require('/ui/common/testflightsettings');
+//TODO add flurry back in once I have old machine back or built project
+//flurry = require('/ui/common/flurrysettings');
+//tf = require('/ui/common/testflightsettings');
 var scrapbook = require('/sus/scrapbook');
-var scrollView = require('/ui/common/scrollWindow').create();
-
 //TODO download files and show an activity indicator until work is finished
 Ti.App.Properties.setInt('interval', 5000);
 Ti.App.Properties.setString('scrapbook', Titanium.Filesystem.applicationDataDirectory + 'scrapbook');
 var contents = models.contents.get();
-if (!contents) {
+if (!contents || _.size(contents) === 0) {
     scrapbook.initialise();
 }
 var folderName = Ti.App.Properties.getString('scrapbook') || Titanium.Filesystem.applicationDataDirectory + 'scrapbook';
@@ -22,6 +21,8 @@ var directoryContents = folder.getDirectoryListing();
 if (_.size(directoryContents) === 0) {
     scrapbook.download();
 }
+
+var scrollView = require('/ui/common/scrollWindow').create();
 
 SIDEBAR = 100;
 var mainWin, settingsWin, metroBtn, refreshBtn, osname = Titanium.Platform.osname, slideItLeft, slideItRight;
