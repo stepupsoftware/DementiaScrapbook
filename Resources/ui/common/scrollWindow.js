@@ -13,53 +13,11 @@ var ScrollWindow = function(args) {
 			showPagingControl : false
 		});
 
-		var getModelData = function(args) {
-			//TODO prb wrong location for this stuff.  Move to sync? or initialise function in models object
-			var file, fileName, model, dataJSON;
-
-			try {
-				//TODO add throws to filter out bad args
-				fileName = folderName + args.file;
-				file = Ti.Filesystem.getFile(fileName);
-				model = models[args.model];
-				if (file.exists()) {
-					model.remove();
-					dataJSON = JSON.parse(file.read());
-					
-					_.each(dataJSON, function(entry) {
-						model.merge(entry, 'id', true);
-					});
-					model.merge(dataJSON);
-				}
-
-			} catch (ex) {
-
-				msg = ex || ex.message;
-				Ti.API.error(msg);
-
-			}
-
-		};
-
-		getModelData({
-			model : 'events',
-			file : '/events.json'
-		});
-		getModelData({
-			model : 'people',
-			file : '/people.json'
-		});
-
-		getModelData({
-			model : 'postcards',
-			file : '/postcards.json'
-		});
+		models.events.sync();
+		models.people.sync();
+		models.postcards.sync();
+		models.photos.sync();
 		
-		getModelData({
-			model : 'photos',
-			file : '/photos.json'
-		});
-
 		var addImages = function(args) {
 
 			var contents = models.contents.get();
