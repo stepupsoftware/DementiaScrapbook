@@ -4,26 +4,55 @@
 var ScrollWindow = function(args) {
 
 	try {
+		var number, folderName, folder, directoryContents, scrollableView;
+		folderName = Ti.App.Properties.getString('scrapbook') || Titanium.Filesystem.applicationDataDirectory + 'scrapbook';
+		folder = Ti.Filesystem.getFile(folderName);
+		directoryContents = folder.getDirectoryListing();
 
-		var folderName = Ti.App.Properties.getString('scrapbook') || Titanium.Filesystem.applicationDataDirectory + 'scrapbook';
-		var folder = Ti.Filesystem.getFile(folderName);
-		var directoryContents = folder.getDirectoryListing();
-
-		var scrollableView = Ti.UI.createScrollableView({
+		scrollableView = Ti.UI.createScrollableView({
 			showPagingControl : false
 		});
 
-		models.events.sync();
-		models.people.sync();
-		models.postcards.sync();
-		models.photos.sync();
-		
 		var addImages = function(args) {
 
-			var contents = models.contents.get();
-			var photos = [], views = [];
+			var contents, pictures = [], photos = [], views = [], events, people, postcards, photos;
 
 			try {
+				//photos used throughout regardless of type
+				models.photos.sync();
+				photos = models.photos.get();
+
+				switch (args) {
+					case 'events':
+						models.events.sync();
+						events = models.events.get();
+						contents = models.contents.get();
+						break;
+					case 'people':
+						var items = [];
+						models.people.sync();
+						people = models.people.get();
+						_.each(people, function(person) {
+							var obj, contents;
+							obj = {
+								"path" : '/scrapbook/' + person.KeyPhoto
+							};
+							contents = models.contents.get(obj);
+							if (contents && contents[0]) {
+								items.push(contents[0]);
+							}
+						});
+						contents = items;
+						break;
+					case 'postcards':
+						models.postcards.sync();
+						postcards = models.postcards.get();
+						contents = models.contents.get();
+						break;
+					default:
+						contents = models.contents.get();
+						break;
+				}
 
 				//remove child windows from scrollableView
 
@@ -41,16 +70,16 @@ var ScrollWindow = function(args) {
 				_.each(contents, function(item) {
 
 					if (item.mime_type.indexOf("image") !== -1) {
-						photos.push(item.path);
+						pictures.push(item.path);
 					}
 
 				});
 
 				//check that the file exists and create an imageView if it does.
-				_.each(photos, function(photo) {
+				_.each(pictures, function(picture) {
 
 					var view, image;
-					var fileName = Titanium.Filesystem.applicationDataDirectory + photo;
+					var fileName = Titanium.Filesystem.applicationDataDirectory + picture;
 					var file = Ti.Filesystem.getFile(fileName);
 
 					if (file.exists()) {
@@ -76,16 +105,17 @@ var ScrollWindow = function(args) {
 				Ti.API.error(msg);
 
 			} finally {
-
+				
+				number = _.size(views);
 				return views;
 			}
 
 		};
 
-		scrollableView.views = addImages();
+		scrollableView.views = addImages(args);
 
 		//get the number of views (photos)
-		var number = _.size(scrollableView.getViews());
+		number = number ? number : _.size(scrollableView.getViews());
 		var t = 0;
 		var interval = Ti.App.Properties.getInt('interval') || 5000;
 		//get the window to autoscroll
@@ -140,6 +170,10 @@ var ScrollWindow = function(args) {
 		this.setDirection = function(args) {
 			direction = args || 'left';
 			Ti.API.debug('scrolling is ' + direction);
+		};
+		
+		this.setImages = function(args) {
+			scrollableView.views = addImages(args);
 		};
 
 	} catch (ex) {

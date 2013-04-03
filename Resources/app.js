@@ -28,6 +28,7 @@ SIDEBAR = 100;
 var mainWin, settingsWin, metroBtn, refreshBtn, osname = Titanium.Platform.osname, slideItLeft, slideItRight;
 var callBack = function(e) {
     mainWin.title(e.rowData.id);
+    scrollView.setImages(e.rowData.id.toLowerCase());
 };
 
 settingsWin = require('/ui/common/SettingsWindow').create(callBack);

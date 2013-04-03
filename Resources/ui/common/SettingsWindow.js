@@ -40,7 +40,7 @@ var ApplicationWindow = function(callBack) {
             backgroundImage : '/images/world.png',
             height : 16,
             width : 16,
-            id : L('all')
+            id : L('photos')
         });
         events = Ti.UI.createLabel({
             backgroundImage : '/images/events.png',
