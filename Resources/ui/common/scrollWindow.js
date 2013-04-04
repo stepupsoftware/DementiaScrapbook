@@ -90,7 +90,7 @@ var ScrollWindow = function(args) {
                     items.push(contents);
                 }
             });
-            
+
             return items;
         };
         var getPostcards = function() {
@@ -127,7 +127,7 @@ var ScrollWindow = function(args) {
             var contents, pictures = [], photos = [], views = [], events, people, postcards;
 
             try {
-                
+
                 //photos used throughout regardless of type
                 models.photos.sync();
 
@@ -162,7 +162,11 @@ var ScrollWindow = function(args) {
                 _.each(contents, function(item) {
 
                     if (item.mime_type.indexOf("image") !== -1) {
-                        pictures.push(item.path);
+                        pictures.push({
+                            file : item.path,
+                            title : item.title || '',
+                            subTitle : item.subTitle || ''
+                        });
                     }
 
                 });
@@ -170,20 +174,34 @@ var ScrollWindow = function(args) {
                 //check that the file exists and create an imageView if it does.
                 _.each(pictures, function(picture) {
 
-                    var view, image;
-                    var fileName = Titanium.Filesystem.applicationDataDirectory + picture;
+                    var view, image, lbl, subLbl;
+                    var fileName = Titanium.Filesystem.applicationDataDirectory + picture.file;
                     var file = Ti.Filesystem.getFile(fileName);
 
                     if (file.exists()) {
                         view = Ti.UI.createView({
-                            backgroundColor : '#fff',
-                            top : 10
+                            backgroundColor : 'white',
+                            top : 10,
+                            height : '100%',
+                            width : '85%',
+                            layout : 'vertical'
+                        });
+                        lbl = Ti.UI.createLabel({
+                            text : picture.title + (picture.subTitle ? ': ' + picture.subTitle : ''),
+                            font : {
+                                fontSize : 10
+                            },
+                            color : 'black',
+                            height : 20,
+                            width : '100%',
+                            top : 10,
+                            textAlign : 'center'
                         });
                         image = Ti.UI.createImageView({
                             image : fileName,
-                            height : Ti.UI.SIZE,
-                            width : Ti.UI.SIZE
+                            height : '70%'
                         });
+                        view.add(lbl);
                         view.add(image);
                         views.push(view);
                     } else {
