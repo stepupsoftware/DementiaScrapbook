@@ -4,10 +4,10 @@
         <target device="mobileweb">false</target>
         <target device="iphone">true</target>
         <target device="ipad">true</target>
-        <target device="android">true</target>
+        <target device="android">false</target>
         <target device="blackberry">false</target>
     </deployment-targets>
-    <sdk-version>3.0.2.GA</sdk-version>
+    <sdk-version>2.1.5.v20130226113056</sdk-version>
     <id>com.nhshackday.dementiascrapbook</id>
     <name>dementiascrapbook</name>
     <version>1.0</version>
@@ -46,9 +46,5 @@
         </splash>
         <theme>default</theme>
     </mobileweb>
-    <modules>
-        <module platform="iphone" version="1.0">com.obscure.keychain</module>
-        <module platform="android" version="1.0">com.obscure.keychain</module>
-        <module platform="iphone" version="0.1">com.kosso.cookiejar</module>
-    </modules>
+    <modules/>
 </ti:app>

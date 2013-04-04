@@ -13,8 +13,43 @@ var ScrollWindow = function(args) {
 			showPagingControl : false
 		});
 
+		var getEvents = function() {
+			var items = [], events = [], photos = [];
+			models.events.sync();
+			events = models.events.get();
+			photos = models.photos.get();
+			//get the first photo for the event
+			_.each(events, function(event) {
+				var first, obj, contents;
+				//if photos not stored already, add them to the events object
+				if (!event.photos) {
+					event.photos = [];
+					_.each(photos, function(photo) {
+						//if the photo is of this event
+						if (photo.Events.indexOf(event.id) !== -1) {
+							event.photos.push(photo);
+						}
+					});
+				}
+				//get the first photo (for now)
+				first = _.first(event.photos);
+				obj = {
+					"path" : '/scrapbook/' + first.Name
+				};
+				//look up the photo details
+				contents = models.contents.get(obj);
+				if (contents && contents[0]) {
+					items.push(contents[0]);
+				}
+			});
+			//update the model with photos (assume that they have not been added)
+			models.events.merge(events);
+			return items;
+
+		};
+
 		var getPeople = function() {
-			var items = [];
+			var items = [], people;
 			models.people.sync();
 			people = models.people.get();
 			_.each(people, function(person) {
@@ -27,31 +62,51 @@ var ScrollWindow = function(args) {
 					items.push(contents[0]);
 				}
 			});
-			
+
+			return items;
+		};
+
+		var getPostcards = function() {
+			var cards = [], items = [];
+			models.postcards.sync();
+			postcards = models.postcards.get();
+			_.each(postcards, function(postcard) {
+				var card = models.photos.get({
+					'id' : postcard.PhotoID
+				});
+				if (card && card[0]) {
+					cards.push(card[0]);
+				}
+			});
+			_.each(cards, function(card) {
+				var obj, contents;
+				obj = {
+					"path" : '/scrapbook/' + card.Name
+				};
+				contents = models.contents.get(obj);
+				if (contents && contents[0]) {
+					items.push(contents[0]);
+				}
+			});
 			return items;
 		};
 		var addImages = function(args) {
 
-			var contents, pictures = [], photos = [], views = [], events, people, postcards, photos;
+			var contents, pictures = [], photos = [], views = [], events, people, postcards;
 
 			try {
 				//photos used throughout regardless of type
 				models.photos.sync();
-				photos = models.photos.get();
 
 				switch (args) {
 					case 'events':
-						models.events.sync();
-						events = models.events.get();
-						contents = models.contents.get();
+						contents = getEvents();
 						break;
 					case 'people':
 						contents = getPeople();
 						break;
 					case 'postcards':
-						models.postcards.sync();
-						postcards = models.postcards.get();
-						contents = models.contents.get();
+						contents = getPostcards();
 						break;
 					default:
 						contents = models.contents.get();
