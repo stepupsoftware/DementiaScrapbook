@@ -42,6 +42,7 @@ var ScrollWindow = function(args) {
                     contents = contents[0];
                     contents.title = event.Name;
                     contents.subTitle = event.StartDate;
+                    content.type " 'event";
                     //TODO decorate contents with details of the event here
                     items.push(contents);
                 }
@@ -66,6 +67,7 @@ var ScrollWindow = function(args) {
                     contents = contents[0];
                     contents.title = person.Name;
                     contents.subTitle = person.Relationship;
+                    content.type = 'people';
                     //TODO decorate details of the person here
                     items.push(contents);
                 }
@@ -86,6 +88,7 @@ var ScrollWindow = function(args) {
                 if (contents && contents[0]) {
                     contents = contents[0];
                     contents.title = photo.Title;
+                    content.type = 'photo';
                     //TODO decorate details of the person here
                     items.push(contents);
                 }
@@ -116,6 +119,7 @@ var ScrollWindow = function(args) {
                 if (contents && contents[0]) {
                     contents = contents[0];
                     contents.title = card.title;
+                    content.type = 'postcard';
                     //TODO decorate details of the postcard here
                     items.push(contents);
                 }
@@ -183,11 +187,12 @@ var ScrollWindow = function(args) {
                             backgroundColor : 'white',
                             top : 10,
                             height : '100%',
-                            width : '85%',
+                            width : '90%',
                             layout : 'vertical'
                         });
                         lbl = Ti.UI.createLabel({
-                            text : picture.title + (picture.subTitle ? ': ' + picture.subTitle : ''),
+                            //if no title show nothing
+                            text : picture.title ? (picture.title + (picture.subTitle ? ': ' + picture.subTitle : '')) : '',
                             font : {
                                 fontSize : 10
                             },
@@ -199,7 +204,7 @@ var ScrollWindow = function(args) {
                         });
                         image = Ti.UI.createImageView({
                             image : fileName,
-                            height : '70%'
+                            height : '80%'
                         });
                         view.add(lbl);
                         view.add(image);
