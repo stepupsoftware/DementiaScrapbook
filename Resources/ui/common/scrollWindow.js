@@ -13,6 +13,23 @@ var ScrollWindow = function(args) {
 			showPagingControl : false
 		});
 
+		var getPeople = function() {
+			var items = [];
+			models.people.sync();
+			people = models.people.get();
+			_.each(people, function(person) {
+				var obj, contents;
+				obj = {
+					"path" : '/scrapbook/' + person.KeyPhoto
+				};
+				contents = models.contents.get(obj);
+				if (contents && contents[0]) {
+					items.push(contents[0]);
+				}
+			});
+			
+			return items;
+		};
 		var addImages = function(args) {
 
 			var contents, pictures = [], photos = [], views = [], events, people, postcards, photos;
@@ -29,20 +46,7 @@ var ScrollWindow = function(args) {
 						contents = models.contents.get();
 						break;
 					case 'people':
-						var items = [];
-						models.people.sync();
-						people = models.people.get();
-						_.each(people, function(person) {
-							var obj, contents;
-							obj = {
-								"path" : '/scrapbook/' + person.KeyPhoto
-							};
-							contents = models.contents.get(obj);
-							if (contents && contents[0]) {
-								items.push(contents[0]);
-							}
-						});
-						contents = items;
+						contents = getPeople();
 						break;
 					case 'postcards':
 						models.postcards.sync();
@@ -105,7 +109,7 @@ var ScrollWindow = function(args) {
 				Ti.API.error(msg);
 
 			} finally {
-				
+
 				number = _.size(views);
 				return views;
 			}
@@ -171,7 +175,7 @@ var ScrollWindow = function(args) {
 			direction = args || 'left';
 			Ti.API.debug('scrolling is ' + direction);
 		};
-		
+
 		this.setImages = function(args) {
 			scrollableView.views = addImages(args);
 		};
