@@ -142,7 +142,7 @@ var ui = {
         navBarHidden : true
     },
     applicationWindow : {
-        backgroundColor : pal.scrapbook.lightGrey,
+        backgroundColor : 'white',
         barColor : pal.scrapbook.lightGreen,
         navBarHidden : true,
         layout : 'vertical'

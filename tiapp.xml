@@ -14,7 +14,7 @@
     <publisher>paulryan</publisher>
     <url>http://www.stepupsoftware.co.uk</url>
     <description>not specified</description>
-    <copyright>2013 by paulryan</copyright>
+    <copyright>2013 by Step Up Software</copyright>
     <icon>appicon.png</icon>
     <persistent-wifi>false</persistent-wifi>
     <prerendered-icon>true</prerendered-icon>
@@ -46,5 +46,7 @@
         </splash>
         <theme>default</theme>
     </mobileweb>
-    <modules/>
+    <modules>
+        <module platform="iphone" version="0.1">com.kosso.cookiejar</module>
+    </modules>
 </ti:app>

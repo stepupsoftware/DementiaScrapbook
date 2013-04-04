@@ -10,7 +10,8 @@ var ScrollWindow = function(args) {
         directoryContents = folder.getDirectoryListing();
 
         scrollableView = Ti.UI.createScrollableView({
-            showPagingControl : false
+            showPagingControl : false,
+            touchEnabled : false
         });
 
         var getEvents = function() {
@@ -42,7 +43,7 @@ var ScrollWindow = function(args) {
                     contents = contents[0];
                     contents.title = event.Name;
                     contents.subTitle = event.StartDate;
-                    content.type " 'event";
+                    contents.type = 'event';
                     //TODO decorate contents with details of the event here
                     items.push(contents);
                 }
@@ -67,7 +68,7 @@ var ScrollWindow = function(args) {
                     contents = contents[0];
                     contents.title = person.Name;
                     contents.subTitle = person.Relationship;
-                    content.type = 'people';
+                    contents.type = 'people';
                     //TODO decorate details of the person here
                     items.push(contents);
                 }
@@ -88,7 +89,7 @@ var ScrollWindow = function(args) {
                 if (contents && contents[0]) {
                     contents = contents[0];
                     contents.title = photo.Title;
-                    content.type = 'photo';
+                    contents.type = 'photo';
                     //TODO decorate details of the person here
                     items.push(contents);
                 }
@@ -119,7 +120,7 @@ var ScrollWindow = function(args) {
                 if (contents && contents[0]) {
                     contents = contents[0];
                     contents.title = card.title;
-                    content.type = 'postcard';
+                    contents.type = 'postcard';
                     //TODO decorate details of the postcard here
                     items.push(contents);
                 }
@@ -169,7 +170,8 @@ var ScrollWindow = function(args) {
                         pictures.push({
                             file : item.path,
                             title : item.title || '',
-                            subTitle : item.subTitle || ''
+                            subTitle : item.subTitle || '',
+                            type : item.type
                         });
                     }
 
@@ -178,36 +180,55 @@ var ScrollWindow = function(args) {
                 //check that the file exists and create an imageView if it does.
                 _.each(pictures, function(picture) {
 
-                    var view, image, lbl, subLbl;
+                    var view, image, lbl, subLbl, params = {};
                     var fileName = Titanium.Filesystem.applicationDataDirectory + picture.file;
                     var file = Ti.Filesystem.getFile(fileName);
+
+                    if (picture.type === 'postcard') {
+                        params = {
+                            layout : 'horizontal',
+                            width : '45%',
+                            wrap : true,
+                            left : 10,
+                            height : '85%',
+                            top : 10
+                        };
+                    } else {
+                        params = {
+                            layout : 'vertical',
+                            width : '80%',
+                            wrap : false,
+                            height : 20
+                        };
+                    }
 
                     if (file.exists()) {
                         view = Ti.UI.createView({
                             backgroundColor : 'white',
-                            top : 10,
                             height : '100%',
-                            width : '90%',
-                            layout : 'vertical'
+                            width : '100%',
+                            layout : params.layout,
+                            top : 10
                         });
-                        lbl = Ti.UI.createLabel({
+
+                        lbl = Ti.UI.createLabel(_.defaults({
                             //if no title show nothing
                             text : picture.title ? (picture.title + (picture.subTitle ? ': ' + picture.subTitle : '')) : '',
                             font : {
                                 fontSize : 10
                             },
                             color : 'black',
-                            height : 20,
-                            width : '100%',
-                            top : 10,
-                            textAlign : 'center'
-                        });
-                        image = Ti.UI.createImageView({
+                            textAlign : 'center',
+                            verticalAlign : Ti.UI.TEXT_VERTICAL_ALIGNMENT_TOP
+                        }, params));
+
+                        image = Ti.UI.createImageView(_.defaults({
                             image : fileName,
-                            height : '80%'
-                        });
-                        view.add(lbl);
+                            height : '85%'
+                        }, params));
+
                         view.add(image);
+                        view.add(lbl);
                         views.push(view);
                     } else {
                         Ti.API.error(fileName + ' is missing');
