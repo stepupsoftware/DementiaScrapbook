@@ -53,13 +53,13 @@ var ui = {
 
     windowTitle : {
         font : {
-            fontSize : 20,
+            fontSize : 24,
             fontWeight : 'bold'
         }
     },
     //ensure that fakeNavBarView, fakeTabBarView, mainView heights do not exceed 100%!!
     fakeNavBarView : {
-        height : '15%',
+        height : '10%',
         //backgroundColor : pal.scrapbook.darkGreen,
         backgroundGradient : {
             type : 'linear',
@@ -92,7 +92,7 @@ var ui = {
     },
 
     mainView : {
-        height : '75%'
+        height : '80%'
     },
 
     opaqueView : {

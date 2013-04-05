@@ -215,11 +215,11 @@ var ScrollWindow = function(args) {
                             //if no title show nothing
                             text : picture.title ? (picture.title + (picture.subTitle ? ': ' + picture.subTitle : '')) : '',
                             font : {
-                                fontSize : 10
+                                fontSize : 20
                             },
                             color : 'black',
                             textAlign : 'center',
-                            verticalAlign : Ti.UI.TEXT_VERTICAL_ALIGNMENT_TOP
+                            verticalAlign : Ti.UI.TEXT_VERTICAL_ALIGNMENT_CENTER
                         }, params));
 
                         image = Ti.UI.createImageView(_.defaults({
@@ -252,9 +252,9 @@ var ScrollWindow = function(args) {
         scrollableView.views = addImages(args);
 
         //get the number of views (photos)
-        number = number ? number : _.size(scrollableView.getViews());
+        number = number ? number : (_.size(scrollableView.getViews() - 1));
         var t = 0;
-        var interval = Ti.App.Properties.getInt('interval') || 5000;
+        var interval = Ti.App.Properties.getInt('interval') || 3000;
         //get the window to autoscroll
         var intval;
         var scroll = true;
@@ -300,7 +300,7 @@ var ScrollWindow = function(args) {
             dialog.show();
             setTimeout(function() {
                 dialog.hide();
-            }, 5000);
+            }, interval);
 
         };
 
@@ -311,6 +311,10 @@ var ScrollWindow = function(args) {
 
         this.setImages = function(args) {
             scrollableView.views = addImages(args);
+            var views = scrollableView.getViews() ;
+            //reset the scroller
+            number = (_.size(views)-1);
+            t = 0;
         };
 
     } catch (ex) {
