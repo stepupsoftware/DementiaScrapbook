@@ -12,6 +12,7 @@ Ti.App.Properties.setInt('interval', 5000);
 Ti.App.Properties.setString('scrapbook', Titanium.Filesystem.applicationDataDirectory + 'scrapbook');
 var contents = models.contents.get();
 if (!contents || _.size(contents) === 0) {
+    //sets up oauth authentication if needed
     scrapbook.initialise();
 }
 var folderName = Ti.App.Properties.getString('scrapbook') || Titanium.Filesystem.applicationDataDirectory + 'scrapbook';
@@ -19,6 +20,7 @@ var folder = Ti.Filesystem.getFile(folderName);
 var directoryContents = folder.getDirectoryListing();
 
 if (_.size(directoryContents) === 0) {
+    //downloads dropbox contents
     scrapbook.download();
 }
 
@@ -99,3 +101,8 @@ mainWin.open();
 settingsWin.open();
 settingsWin.hide();
 mainWin.animate(slideItRight);
+
+Ti.App.addEventListener('metadata.refreshed', function() {
+    //downloads the files after initialisation has finished
+    scrapbook.download();
+});

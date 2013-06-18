@@ -126,7 +126,6 @@ module.exports = ( function() {
             };
             client.metadata("scrapbook", options, function(status, reply) {
                 Ti.API.info(status);
-                //Ti.API.info(reply);
                 //nuke all the current details and start over
                 if (reply.hash && reply.hash !== hash) {
                     //update the hash value
@@ -136,6 +135,7 @@ module.exports = ( function() {
                     });
                     Ti.App.Properties.removeProperty('hash');
                     Ti.App.Properties.setString('hash', reply.hash);
+                    Ti.App.fireEvent('metadata.refreshed');
                 }
             });
         };
