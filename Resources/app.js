@@ -1,13 +1,108 @@
-/*global L, Ti, Titanium, joli, uploader, logger, models, sus, cust*/
+/*global L, Ti, Titanium, joli, uploader, logger, sus, cust*/
 /*jslint nomen: true, sloppy : true, plusplus: true, vars: true, newcap: true*/
-var theme = require('/ui/common/theme');
-var _ = require('/libs/underscore');
-var model = require('model/model');
-flurry = require('/ui/common/flurrysettings');
-tf = require('/ui/common/testflightsettings');
-var win, osname = Titanium.Platform.osname;
-if (osname === 'android') {
-    win = new ( require('/ui/handheld/android/SingleView').SingleWindow)();
-} else {
-    win = new ( require('/ui/handheld/ios/SingleView').SingleWindow)();
+_ = require('/lib/underscore-min');
+theme = require('/ui/common/theme');
+models = require('/model/model').models;
+//TODO add flurry back in once I have old machine back or built project
+//flurry = require('/ui/common/flurrysettings');
+//tf = require('/ui/common/testflightsettings');
+var scrapbook = require('/sus/scrapbook');
+//TODO download files and show an activity indicator until work is finished
+Ti.App.Properties.setInt('interval', 5000);
+Ti.App.Properties.setString('scrapbook', Titanium.Filesystem.applicationDataDirectory + 'scrapbook');
+var contents = models.contents.get();
+if (!contents || _.size(contents) === 0) {
+    //sets up oauth authentication if needed
+    scrapbook.initialise();
 }
+var folderName = Ti.App.Properties.getString('scrapbook') || Titanium.Filesystem.applicationDataDirectory + 'scrapbook';
+var folder = Ti.Filesystem.getFile(folderName);
+var directoryContents = folder.getDirectoryListing();
+
+if (_.size(directoryContents) === 0) {
+    //downloads dropbox contents
+    scrapbook.download();
+}
+
+var scrollView = require('/ui/common/scrollWindow').create();
+
+SIDEBAR = 100;
+var mainWin, settingsWin, metroBtn, refreshBtn, osname = Titanium.Platform.osname, slideItLeft, slideItRight;
+var callBack = function(e) {
+    //the settings window is the side bar.  Clicking an icon in this window will fire this callback
+    mainWin.title(e.rowData.id);
+    scrollView.setImages(e.rowData.id.toLowerCase());
+};
+
+settingsWin = require('/ui/common/SettingsWindow').create(callBack);
+
+mainWin = require('/ui/common/ApplicationWindow').create({
+    tabBar : false,
+    title : 'all photos'
+});
+
+mainWin.add(scrollView.view);
+
+slideItLeft = Titanium.UI.createAnimation({
+    right : SIDEBAR,
+    duration : 1000,
+    curve : Titanium.UI.ANIMATION_CURVE_LINEAR
+});
+
+slideItRight = Titanium.UI.createAnimation({
+    right : 0,
+    duration : 1000,
+    curve : Titanium.UI.ANIMATION_CURVE_LINEAR
+});
+//TODO resize button or add listener to view, not button
+metroBtn = Ti.UI.createButton(_.defaults({
+    backgroundImage : '/images/259-list.png',
+    width : 40,
+    height : 28,
+    toggle : false,
+    borderRadius : 0
+}, theme.tabButton));
+
+metroBtn.addEventListener('click', function(e) {
+    if (e.source.toggle === true) {
+        settingsWin.hide();
+        mainWin.animate(slideItRight);
+        e.source.toggle = false;
+    } else {
+        settingsWin.show();
+        mainWin.animate(slideItLeft);
+        e.source.toggle = true;
+    }
+});
+
+refreshBtn = Ti.UI.createButton(_.defaults({
+    backgroundImage : '/images/01-refresh.png',
+    width : 24,
+    height : 26
+}, theme.tabButton));
+
+mainWin.setLeftNavButton(metroBtn);
+
+mainWin.addEventListener('dblclick', function() {
+    scrollView.setTimer();
+});
+
+mainWin.addEventListener('swipe', function(e) {
+    if (e.direction === 'left') {
+        scrollView.setDirection('left');
+    } else {
+        scrollView.setDirection('right');
+    }
+
+});
+
+//need to open settings window last so buttons are active
+mainWin.open();
+settingsWin.open();
+settingsWin.hide();
+mainWin.animate(slideItRight);
+
+Ti.App.addEventListener('metadata.refreshed', function() {
+    //downloads the files after initialisation has finished
+    scrapbook.download();
+});
