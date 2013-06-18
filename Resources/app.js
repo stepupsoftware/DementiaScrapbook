@@ -27,6 +27,7 @@ var scrollView = require('/ui/common/scrollWindow').create();
 SIDEBAR = 100;
 var mainWin, settingsWin, metroBtn, refreshBtn, osname = Titanium.Platform.osname, slideItLeft, slideItRight;
 var callBack = function(e) {
+    //the settings window is the side bar.  Clicking an icon in this window will fire this callback
     mainWin.title(e.rowData.id);
     scrollView.setImages(e.rowData.id.toLowerCase());
 };
@@ -78,8 +79,6 @@ refreshBtn = Ti.UI.createButton(_.defaults({
     height : 26
 }, theme.tabButton));
 
-//not needed just yet.
-//mainWin.setRightNavButton(metroBtn);
 mainWin.setLeftNavButton(metroBtn);
 
 mainWin.addEventListener('dblclick', function() {

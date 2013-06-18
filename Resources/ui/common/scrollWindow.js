@@ -1,13 +1,10 @@
 /*global L */
 /*jslint nomen: true, sloppy : true, plusplus: true, vars: true, newcap: true, regexp: true*/
 
-var ScrollWindow = function(args) {
+var ScrollWindow = function() {
 
     try {
-        var number, folderName, folder, directoryContents, scrollableView;
-        folderName = Ti.App.Properties.getString('scrapbook') || Titanium.Filesystem.applicationDataDirectory + 'scrapbook';
-        folder = Ti.Filesystem.getFile(folderName);
-        directoryContents = folder.getDirectoryListing();
+        var number, scrollableView;
 
         scrollableView = Ti.UI.createScrollableView({
             showPagingControl : false,
@@ -98,7 +95,7 @@ var ScrollWindow = function(args) {
             return items;
         };
         var getPostcards = function() {
-            var cards = [], items = [];
+            var cards = [], items = [], postcards = [];
             models.postcards.sync();
             postcards = models.postcards.get();
             _.each(postcards, function(postcard) {
@@ -129,9 +126,14 @@ var ScrollWindow = function(args) {
         };
         var addImages = function(args) {
 
-            var contents, pictures = [], photos = [], views = [], events, people, postcards;
+            var contents, pictures = [], photos = [], views = [], events, people, postcards, folderName, folder, directoryContents;
 
             try {
+
+                //refresh the directory contents
+                folderName = Ti.App.Properties.getString('scrapbook') || Titanium.Filesystem.applicationDataDirectory + 'scrapbook';
+                folder = Ti.Filesystem.getFile(folderName);
+                directoryContents = folder.getDirectoryListing();
 
                 //photos used throughout regardless of type
                 models.photos.sync();
@@ -243,16 +245,12 @@ var ScrollWindow = function(args) {
 
             } finally {
 
-                number = _.size(views);
+                number = _.size(views) || 0;
                 return views;
             }
 
         };
 
-        scrollableView.views = addImages(args);
-
-        //get the number of views (photos)
-        number = number ? number : (_.size(scrollableView.getViews() - 1));
         var t = 0;
         var interval = Ti.App.Properties.getInt('interval') || 3000;
         //get the window to autoscroll
@@ -311,9 +309,9 @@ var ScrollWindow = function(args) {
 
         this.setImages = function(args) {
             scrollableView.views = addImages(args);
-            var views = scrollableView.getViews() ;
+            var views = scrollableView.getViews();
             //reset the scroller
-            number = (_.size(views)-1);
+            number = (_.size(views) - 1) || 0;
             t = 0;
         };
 
@@ -333,6 +331,6 @@ var ScrollWindow = function(args) {
 
 };
 
-exports.create = function(args) {
-    return new ScrollWindow(args);
+exports.create = function() {
+    return new ScrollWindow();
 };
